@@ -1,0 +1,7 @@
+#Autor: Kamil Zieliński
+#!/bin/bash
+echo 'Czyscze pliki'
+rm client
+make clean
+echo 'Makeuje'
+make -f makefile

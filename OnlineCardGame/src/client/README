@@ -1,0 +1,8 @@
+#Autor: Kamil Zielinski
+
+1. Przed uruchomieniem servera należy wpisać w terminalu ./clean
+2. Uruchamiamy server wpisujac ./client par1 par2
+
+gdzie:
+*par1 to adres ip hosta docelowego
+*par2 to numer portu na którym nasłuchuje host   

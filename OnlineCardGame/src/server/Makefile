@@ -1,0 +1,23 @@
+#Kamil Zielinski
+#make dla server
+
+CC=gcc
+CXX=g++
+CFLAGS=-c
+CXXFLAGS=-c
+LDFLAGS=
+CSOURCES=server.c connection.c  
+SOURCES=$(CSOURCES)
+OBJECTS=$(CSOURCES:.c=.o) 
+EXECUTABLE=server
+
+all: $(SOURCES) $(EXECUTABLE)
+
+$(EXECUTABLE): $(OBJECTS)
+	$(CXX) $(LDFLAGS) $(OBJECTS) -o $@ $(LIBS)
+
+.c.o:
+	$(CC) $(CFLAGS) $< -o $@
+
+clean:
+	rm *.o

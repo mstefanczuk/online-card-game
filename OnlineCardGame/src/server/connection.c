@@ -9,12 +9,14 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <pthread.h>
+#include <string.h>
 #include "connection.h"
-int MAX_CLIENTS=5;
+int MAX_CLIENTS=20;
 struct client_t
 {
     int socket;
     pthread_mutex_t* mutex;
+    char nick[50];
 };
 /**
  * Tworzy połączenie korzystając z gniazd BSD
@@ -47,7 +49,7 @@ int create_connection()
         perror("Blad getsockname");
         exit(1);
     }
-    printf("Port: %d\n", ntohs(server.sin6_port));
+    printf("\nPort nasluchujacy: %d\n", ntohs(server.sin6_port));
     return sock;
 
 }
@@ -55,13 +57,14 @@ int create_connection()
 /**
  * Funkcja nasłuchująca i dla każdego klienta włączająca odzielny wątek do obsługi
  */
-void listen_connections(int sock)
+void listen_connections(int sock,char haslo[])
 {
+    int liczbaGraczy=0;
     pthread_t thread;
     listen(sock, MAX_CLIENTS);
     do 
     {
-        
+        char trybGracza[2];
     	struct client_t *new_client;
         //alokacja kilenta
     	if ((new_client = calloc(1, sizeof(struct client_t))) == NULL)
@@ -70,15 +73,47 @@ void listen_connections(int sock)
     		exit(1);
     	}
         new_client->socket = accept(sock,(struct sockaddr *) 0,(int *) 0);
-	printf("\nlol\n");
         if (new_client->socket == -1 )
         {
             perror("Blad accept");
         }
         else
         {   
-    	    printf("Dolacza\n");
-   	    //tu bedzie obsługa watek
-        }
+            char czyDobreHaslo[2]="0";
+            int i=0;
+            char haslo2[200];
+  	    int temp;
+	    while(i<5 && czyDobreHaslo[0]=='0')
+   	    {  
+		if(i==4)
+		  break;                
+		if(( recv( new_client->socket, haslo2, 201, 0 ) ) <= 0 )
+            	{
+        		perror( "Blad recv\n" );
+        		exit( - 1 );
+            	}
+                printf("Uzytkownik %d podal haslo: %s \n",liczbaGraczy,haslo2);
+		temp=strcmp(haslo,haslo2);
+		if(temp==0)
+			czyDobreHaslo[0]='1';
+		else	
+			czyDobreHaslo[0]='0';
+		write(new_client->socket,czyDobreHaslo,2);
+		++i;
+            }
+            if(czyDobreHaslo[0]=='1')
+ 	    {
+		
+		write(new_client->socket, "Witaj, chcesz byc graczem (1) czy moze widzem(2). Wybierz  odpowiedni numer:",81 );
+            //tu bedzie obsługa watek
+            	if(( recv( new_client->socket, trybGracza, 2, 0 ) ) <= 0 )
+        	{
+        	     perror( "Blad recv\n" );
+        	     exit( - 1 );
+        	}
+		liczbaGraczy+=1;
+        	printf("Tryb gracza: %s\n",trybGracza);
+            }
+       }
     } while(1);
 }

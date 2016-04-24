@@ -16,7 +16,12 @@
 */
 
 void create_connection(int argc, char** argv, int& sock)
-{  int i=0;
+{  
+  int i=0;
+  int getC;
+  char conn[2];
+  char trybGracza[2];
+  char haslo[200];
   //zmiena mowiaca czy adres jest z przestrzeni ipv6 czy ipv4
   bool ipv6 = false;
   //struktura dla ipv6
@@ -53,6 +58,10 @@ void create_connection(int argc, char** argv, int& sock)
     perror ("BLAD TWORZENIA SOCKETU");
     exit(1);
   }
+  //wczytywanie hasla do serwera:
+  printf("Podaj haslo zabezpieczajace serwer: ");
+  scanf("%99[^\n]",haslo);
+  getC=getchar();
   //jeżeli adres hosta z ipv6
   if(ipv6)
   {
@@ -68,7 +77,6 @@ void create_connection(int argc, char** argv, int& sock)
       perror("Blad polaczenia");
       exit(1);
     }
-    else printf("Polaczono z serwerem\n");
   }
  
   else
@@ -85,7 +93,43 @@ void create_connection(int argc, char** argv, int& sock)
       perror("Blad polaczenia");
       exit(1);
     }
-    else printf("Polaczono z serwerem.\n");
   }
+  write(sock,haslo,201);
+  char bufor[1024];
+  if(( recv( sock, conn, 2, 0 ) ) <= 0 )
+  {
+        perror( "Blad recv\n" );
+        exit(- 1 );
+  }
+  printf("Haslo: %s\n",conn);
+  while( conn[0]=='0')
+  {
+     if(i==3)
+     {
+        printf("Za duzo zlych prob logowania.Zamykam polaczenie!\n\n");
+        exit(1);
+     }
+     printf("Podaj haslo zabezpieczajace serwer: ");
+     scanf("%99[^\n]",haslo);
+     getC=getchar();
+     write(sock,haslo,201);
+     ++i;
+     if(( recv( sock, conn, 2, 0 ) ) <= 0 )
+     {
+       perror( "Blad recv\n" );
+        exit(- 1 );
+     }
+  }
+  if(( recv( sock, bufor, sizeof( bufor ), 0 ) ) <= 0 )
+  {
+        perror( "Blad recv\n" );
+        exit( - 1 );
+  }
+  printf( "Server: %s ", bufor );
+  scanf("%s",trybGracza);
+  if(trybGracza[0]!='1' && trybGracza[0]!='2')
+        strcpy( trybGracza,"2" );
+  write(sock,trybGracza,2);
+  sleep(5);
 }
 

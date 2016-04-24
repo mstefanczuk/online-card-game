@@ -10,10 +10,11 @@
 #include "connectionn.h"
 
 //struktura klienta
-struct client_struct 
+struct client_t
 {
     int sock;
     pthread_mutex_t* mutex;
+    char nick[50];
 };
 //inicjalizacja mutexu
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
@@ -21,9 +22,8 @@ pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 
 int main(int argc, char** argv)
 {
-  int count;
-  struct client_struct* structure = new client_struct;
-  structure->mutex = &mutex;
+  struct client_t* client = new client_t;
+  client->mutex = &mutex;
   //sprawdzanie wczytania poprawnej ilosc agrumentow
   if (argc != 3)
   {
@@ -33,10 +33,13 @@ int main(int argc, char** argv)
       exit(1);
     }
   
-  }  
+  } 
+  printf("Podaj nick: ");
+  scanf("%50[^\n]",client->nick);
+  getchar();
   pthread_t client_thread;
   //polaczenie z serwerem
-  create_connection(argc, argv, structure->sock);
-  close(structure->sock);
+  create_connection(argc, argv, client->sock);
+  close(client->sock);
   return 0;
 }

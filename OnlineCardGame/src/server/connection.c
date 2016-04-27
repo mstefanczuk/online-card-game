@@ -11,6 +11,7 @@
 #include <pthread.h>
 #include <string.h>
 #include "connection.h"
+#include "loger.h"
 int MAX_CLIENTS=20;
 struct client_t
 {
@@ -81,6 +82,11 @@ void listen_connections(int sock,char haslo[])
         }
         else
         {   
+ 	    if(( recv( new_client->socket,new_client->nick, 50, 0 ) ) <= 0 )
+            {
+        		perror( "Blad recv\n" );
+        		exit( - 1 );
+            }
             pthread_mutex_unlock(&mutex);
             char czyDobreHaslo[2]="0";
             int i=0;
@@ -95,7 +101,7 @@ void listen_connections(int sock,char haslo[])
         		perror( "Blad recv\n" );
         		exit( - 1 );
             	}
-                printf("Uzytkownik %d podal haslo: %s \n",liczbaGraczy,haslo2);
+                printf("Uzytkownik %s podal haslo: %s \n",new_client->nick,haslo2);
 		temp=strcmp(haslo,haslo2);
 		if(temp==0)
 			czyDobreHaslo[0]='1';
@@ -118,6 +124,7 @@ void listen_connections(int sock,char haslo[])
         	printf("Tryb gracza: %s\n",trybGracza);
             }
  	    pthread_mutex_unlock(&mutex);
+       //login(new_client->socket,haslo, &mutex,new_client->nick);
        }
     } while(1);
 }

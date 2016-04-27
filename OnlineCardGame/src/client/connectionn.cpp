@@ -15,7 +15,7 @@
   Funkcja do tworzenia połączeń, przypisuje adres lokalny gniazdu.
 */
 
-void create_connection(int argc, char** argv, int& sock)
+void create_connection(int argc, char** argv, int& sock,char nick[])
 {  
   int i=0;
   int getC;
@@ -90,6 +90,7 @@ void create_connection(int argc, char** argv, int& sock)
       exit(1);
     }
   }
+  write(sock,nick,50);
   //wczytywanie hasla do serwera:
   printf("Podaj haslo zabezpieczajace serwer: ");
   scanf("%99[^\n]",haslo);

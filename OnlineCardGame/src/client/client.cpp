@@ -39,7 +39,7 @@ int main(int argc, char** argv)
   getchar();
   pthread_t client_thread;
   //polaczenie z serwerem
-  create_connection(argc, argv, client->sock);
+  create_connection(argc, argv, client->sock,client->nick);
   close(client->sock);
   return 0;
 }

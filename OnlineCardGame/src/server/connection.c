@@ -60,8 +60,10 @@ int create_connection()
 void listen_connections(int sock,char haslo[])
 {
     int liczbaGraczy=0;
-    pthread_t thread;
+    pthread_t thread;  
     listen(sock, MAX_CLIENTS);
+    pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+
     do 
     {
         char trybGracza[2];
@@ -79,6 +81,7 @@ void listen_connections(int sock,char haslo[])
         }
         else
         {   
+            pthread_mutex_unlock(&mutex);
             char czyDobreHaslo[2]="0";
             int i=0;
             char haslo2[200];
@@ -114,6 +117,7 @@ void listen_connections(int sock,char haslo[])
 		liczbaGraczy+=1;
         	printf("Tryb gracza: %s\n",trybGracza);
             }
+ 	    pthread_mutex_unlock(&mutex);
        }
     } while(1);
 }

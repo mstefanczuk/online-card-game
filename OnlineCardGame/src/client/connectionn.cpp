@@ -58,10 +58,6 @@ void create_connection(int argc, char** argv, int& sock)
     perror ("BLAD TWORZENIA SOCKETU");
     exit(1);
   }
-  //wczytywanie hasla do serwera:
-  printf("Podaj haslo zabezpieczajace serwer: ");
-  scanf("%99[^\n]",haslo);
-  getC=getchar();
   //jeżeli adres hosta z ipv6
   if(ipv6)
   {
@@ -94,6 +90,10 @@ void create_connection(int argc, char** argv, int& sock)
       exit(1);
     }
   }
+  //wczytywanie hasla do serwera:
+  printf("Podaj haslo zabezpieczajace serwer: ");
+  scanf("%99[^\n]",haslo);
+  getC=getchar();
   write(sock,haslo,201);
   char bufor[1024];
   if(( recv( sock, conn, 2, 0 ) ) <= 0 )

@@ -1,0 +1,6 @@
+#!/bin/bash
+echo 'Czyscze pliki'
+rm server
+make clean
+echo 'Makeuje'
+make -f Makefile

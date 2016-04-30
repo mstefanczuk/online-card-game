@@ -12,9 +12,3 @@ Karol Borowski
 Kamil Zieliński
 
 >>>>>>> refs/remotes/origin/development
-
-TODO:
-
-
-TOFIX:
-- connection.cpp(serwer) linia 128 nie wypisuje nic. nie wiem czemu tam nie przechodzi

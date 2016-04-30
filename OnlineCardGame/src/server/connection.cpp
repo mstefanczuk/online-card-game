@@ -125,7 +125,7 @@ void listen_connections(int sock,char haslo[])
         	printf("Tryb gracza: %s\n",trybGracza);
             }
  	    pthread_mutex_unlock(&mutex);
-	    write(new_client->socket,"TEST1",5);
+	    printf("test");
        //login(new_client->socket,haslo, &mutex,new_client->nick);
        }
     } while(1);

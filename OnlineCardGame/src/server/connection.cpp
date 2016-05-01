@@ -19,11 +19,17 @@ struct client_t
     int socket;
     pthread_mutex_t* mutex;
     char nick[50];
+    bool equal(struct client_t& m )
+    {
+	printf("Oty lamo");        
+	if(strcmp(m.nick,nick)==1)
+		return true;
+	else
+		return false;
+    }
 };
 /**
- * Tworzy połączenie korzystając z gniazd BSD
- *
- * @return numer gniazda
+ * Tworzy połączenie TCP
  */
 int create_connection()
 {
@@ -62,6 +68,7 @@ int create_connection()
 void listen_connections(int sock,char haslo[])
 {
     int liczbaGraczy=0;
+    int temp;
     pthread_t thread; 
     listen(sock, MAX_CLIENTS);
     pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
@@ -88,11 +95,14 @@ void listen_connections(int sock,char haslo[])
         		perror( "Blad recv\n" );
         		exit( - 1 );
             }
-            pthread_mutex_unlock(&mutex);
+
+	    for(int i=0;i<clientList.size();++i)
+	           if(strcmp(clientList[i]->nick,new_client->nick)==0)
+			printf("Jestjuz\n");
+            //pthread_mutex_lock(&mutex);
             char czyDobreHaslo[2]="0";
             int i=0;
             char haslo2[200];
-  	    int temp;
 	    while(i<5 && czyDobreHaslo[0]=='0')
    	    {  
 		if(i==4)
@@ -115,14 +125,17 @@ void listen_connections(int sock,char haslo[])
  	    {
 		
 		write(new_client->socket, "Witaj, chcesz byc graczem (1) czy moze widzem(2). Wybierz  odpowiedni numer:",81 );
-            //tu bedzie obsługa watek
             	if(( recv( new_client->socket, trybGracza, 2, 0 ) ) <= 0 )
         	{
         	     perror( "Blad recv\n" );
         	     exit( - 1 );
         	}
 		liczbaGraczy+=1;
+		
         	printf("Tryb gracza: %s\n",trybGracza);
+                clientList.push_back(new_client);
+                if(liczbaGraczy==4)
+                   printf("oLOLjest5graczy");
             }
  	    pthread_mutex_unlock(&mutex);
 	    printf("test");

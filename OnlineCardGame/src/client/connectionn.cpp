@@ -132,6 +132,6 @@ void create_connection(int argc, char** argv, int& sock,char nick[])
         strcpy( trybGracza,"2" );
   write(sock,trybGracza,2);
   printf("testclient");
-  //sleep(5);
+  sleep(5);
 }
 

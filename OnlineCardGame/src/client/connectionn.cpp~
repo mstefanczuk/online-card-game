@@ -131,7 +131,7 @@ void create_connection(int argc, char** argv, int& sock,char nick[])
   if(trybGracza[0]!='1' && trybGracza[0]!='2')
         strcpy( trybGracza,"2" );
   write(sock,trybGracza,2);
-printf("testclient");
+  printf("testclient");
   //sleep(5);
 }
 

@@ -6,7 +6,7 @@ CXX=g++
 CFLAGS=-c
 CXXFLAGS=-c
 LDFLAGS=
-CSOURCES=server.c connection.c loger.c 
+CSOURCES=server.cpp connection.cpp loger.cpp 
 SOURCES=$(CSOURCES)
 OBJECTS=$(CSOURCES:.c=.o) 
 EXECUTABLE=server

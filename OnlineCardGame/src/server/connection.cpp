@@ -6,6 +6,7 @@
 #include <netdb.h>
 #include <netinet/in.h>
 #include <stdio.h>
+#include <iostream>
 #include <stdlib.h>
 #include <unistd.h>
 #include <pthread.h>
@@ -16,6 +17,7 @@
 #include "spechandler.h"
 #include "loger.h"
 #include "game.h"
+#include "karta.h"
 int MAX_CLIENTS=20;
 struct client_t
 {
@@ -23,6 +25,7 @@ struct client_t
     pthread_mutex_t* mutex;
     char nick[50];
     int trybGracza;
+    std::vector<karta> kartyGracza;
 };
 /**
  * Tworzy połączenie TCP
@@ -156,7 +159,7 @@ void listen_connections(int sock,char haslo[])
                 clientList.push_back(new_client);
                 if(liczbaGraczy==2)
 		{
-			game(clientList);
+			game(clientList,liczbaGraczy);
 		}
             }
  	    pthread_mutex_unlock(&mutex);

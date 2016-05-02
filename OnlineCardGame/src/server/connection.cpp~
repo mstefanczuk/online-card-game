@@ -6,6 +6,7 @@
 #include <netdb.h>
 #include <netinet/in.h>
 #include <stdio.h>
+#include <iostream>
 #include <stdlib.h>
 #include <unistd.h>
 #include <pthread.h>
@@ -16,6 +17,7 @@
 #include "spechandler.h"
 #include "loger.h"
 #include "game.h"
+#include "karta.hpp"
 int MAX_CLIENTS=20;
 struct client_t
 {
@@ -23,6 +25,7 @@ struct client_t
     pthread_mutex_t* mutex;
     char nick[50];
     int trybGracza;
+    std::vector<karta> kartyGracza;
 };
 /**
  * Tworzy połączenie TCP
@@ -143,7 +146,6 @@ void listen_connections(int sock,char haslo[])
         	     perror( "Blad recv\n" );
         	     exit( - 1 );
         	}
-		printf("test1");
         	printf("Tryb gracza %s: %s\n",new_client->nick,trybGracza);
                 if(trybGracza[0]=='1' && clientList.size()<4)
 	        {
@@ -154,23 +156,10 @@ void listen_connections(int sock,char haslo[])
 	        {
                    new_client->trybGracza=2;
                 }
-		printf("test2");
                 clientList.push_back(new_client);
                 if(liczbaGraczy==2)
 		{
-			for(int i=0;i<clientList.size();++i)
-				write(clientList[i]->socket, "Rozpoczynamy gre\n",18 );
-			printf("testttt");
-			game(clientList);
-		   /*while(1)
-		   {
-                   	for(int i=0;i<clientList.size();++i)
-				write(clientList[i]->socket, "Rozpoczynamy gre\n",18 );
-		   	sleep(1);
-		   	for(int i=0;i<clientList.size();++i)
-				write(clientList[i]->socket, "TEST\n",5 );
-			sleep(1);
-		   }*/
+			game(clientList,liczbaGraczy);
 		}
             }
  	    pthread_mutex_unlock(&mutex);

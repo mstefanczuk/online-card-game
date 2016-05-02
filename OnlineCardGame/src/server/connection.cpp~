@@ -21,6 +21,7 @@ struct client_t
     int socket;
     pthread_mutex_t* mutex;
     char nick[50];
+    int trybGracza;
 };
 /**
  * Tworzy połączenie TCP
@@ -144,19 +145,15 @@ void listen_connections(int sock,char haslo[])
 		liczbaGraczy+=1;
 		
         	printf("Tryb gracza %s: %s\n",new_client->nick,trybGracza);
-                clientList.push_back(new_client);
                 if(trybGracza[0]=='1')
 	        {
-                   pthread_create(&thread, NULL, player_connection_handler, (void *)new_client);
-   	           //gdy watek sie skonczy zwraca pamiec automatycznie
-                   pthread_detach(thread);
+                   new_client->trybGracza=2;
                 }
                 else if(trybGracza[0]=='2')
 	        {
-                   pthread_create(&thread, NULL, (void *)spec_connection_handler, (void *)new_client);
-   	           //gdy watek sie skonczy zwraca pamiec automatycznie
-                   pthread_detach(thread);
+                   new_client->trybGracza=2;
                 }
+                clientList.push_back(new_client);
             }
  	    pthread_mutex_unlock(&mutex);
 	    printf("test");

@@ -147,6 +147,12 @@ void create_connection(int argc, char** argv, int& sock,char nick[])
   if(trybGracza[0]!='1' && trybGracza[0]!='2')
         strcpy( trybGracza,"2" );
   write(sock,trybGracza,2);
+  if(( recv( sock, bufor, sizeof( bufor ), 0 ) ) <= 0 )
+  {
+        perror( "Blad recv\n" );
+        exit( - 1 );
+  }
+  printf( "Server: %s ", bufor );
   printf("testclient");
   //sleep(5);
 }

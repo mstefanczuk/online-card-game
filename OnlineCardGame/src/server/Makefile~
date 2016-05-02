@@ -14,7 +14,7 @@ EXECUTABLE=server
 all: $(SOURCES) $(EXECUTABLE)
 
 $(EXECUTABLE): $(OBJECTS)
-	$(CXX) $(LDFLAGS) $(OBJECTS) -o $@ $(LIBS)
+	$(CXX) $(LDFLAGS) $(OBJECTS)-pthread -o $@ $(LIBS)
 
 .c.o:
 	$(CC) $(CFLAGS) $< -o  $@

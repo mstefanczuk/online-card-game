@@ -15,6 +15,7 @@
 #include "playerhandler.h"
 #include "spechandler.h"
 #include "loger.h"
+#include "game.h"
 int MAX_CLIENTS=20;
 struct client_t
 {
@@ -142,7 +143,6 @@ void listen_connections(int sock,char haslo[])
         	     perror( "Blad recv\n" );
         	     exit( - 1 );
         	}
-		
         	printf("Tryb gracza %s: %s\n",new_client->nick,trybGracza);
                 if(trybGracza[0]=='1' && clientList.size()<4)
 	        {
@@ -154,12 +154,12 @@ void listen_connections(int sock,char haslo[])
                    new_client->trybGracza=2;
                 }
                 clientList.push_back(new_client);
-                if(liczbaGraczy==3)
-                   for(int i=0;i<clientList.size();++i)
-			write(clientList[i]->socket, "Rozpoczynamy gre",17 );
+                if(liczbaGraczy==2)
+		{
+			game(clientList);
+		}
             }
  	    pthread_mutex_unlock(&mutex);
-	    printf("test");
        //login(new_client->socket,haslo, &mutex,new_client->nick);
        }
     } while(1);

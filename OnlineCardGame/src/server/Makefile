@@ -6,7 +6,7 @@ CXX=g++
 CFLAGS=-c
 CXXFLAGS=-c
 LDFLAGS=
-CSOURCES=server.cpp connection.cpp
+CSOURCES=server.cpp connection.cpp playerhandler.cpp spechandler.cpp
 SOURCES=$(CSOURCES)
 OBJECTS=$(CSOURCES:.c=.o) 
 EXECUTABLE=server
@@ -14,10 +14,10 @@ EXECUTABLE=server
 all: $(SOURCES) $(EXECUTABLE)
 
 $(EXECUTABLE): $(OBJECTS)
-	$(CXX) $(LDFLAGS) $(OBJECTS) -o $@ $(LIBS)
+	$(CXX) $(LDFLAGS) $(OBJECTS)-pthread -o $@ $(LIBS)
 
 .c.o:
-	$(CC) $(CFLAGS) $< -o $@
+	$(CC) $(CFLAGS) $< -o  $@
 
 clean:
 	rm *.o

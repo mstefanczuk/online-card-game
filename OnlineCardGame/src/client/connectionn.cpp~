@@ -90,6 +90,23 @@ void create_connection(int argc, char** argv, int& sock,char nick[])
     }
   }
   write(sock,nick,50);
+  char czyNickOkej[]="1";
+  while(czyNickOkej[0]=='1')
+  {
+      printf("Sprawdzam nick  ");
+      if(( recv( sock, czyNickOkej, 2, 0 ) ) <= 0 )
+      {
+        perror( "Blad recv\n" );
+        exit( - 1 );
+      }
+      if(czyNickOkej[0]=='1')
+      {
+        printf("Podany nick jest zajęty. Podaj inny nick: ");
+        scanf("%50[^\n]",nick);
+        getchar();
+        write(sock,nick,50);
+      }
+  }
   //wczytywanie hasla do serwera:
   printf("Podaj haslo zabezpieczajace serwer: ");
   scanf("%99[^\n]",haslo);
@@ -131,6 +148,6 @@ void create_connection(int argc, char** argv, int& sock,char nick[])
         strcpy( trybGracza,"2" );
   write(sock,trybGracza,2);
   printf("testclient");
-  sleep(5);
+  //sleep(5);
 }
 

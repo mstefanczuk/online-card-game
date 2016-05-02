@@ -12,6 +12,8 @@
 #include <string.h>
 #include <vector>
 #include "connection.h"
+#include "playerhandler.h"
+#include "spechandler.h"
 #include "loger.h"
 int MAX_CLIENTS=20;
 struct client_t
@@ -19,14 +21,6 @@ struct client_t
     int socket;
     pthread_mutex_t* mutex;
     char nick[50];
-    bool equal(struct client_t& m )
-    {
-	printf("Oty lamo");        
-	if(strcmp(m.nick,nick)==1)
-		return true;
-	else
-		return false;
-    }
 };
 /**
  * Tworzy połączenie TCP
@@ -69,7 +63,7 @@ void listen_connections(int sock,char haslo[])
 {
     int liczbaGraczy=0;
     int temp;
-    pthread_t thread; 
+    pthread_t thread;
     listen(sock, MAX_CLIENTS);
     pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
     std::vector<struct client_t*> clientList;
@@ -77,6 +71,7 @@ void listen_connections(int sock,char haslo[])
     {
         char trybGracza[2];
     	struct client_t *new_client;
+        int istniejeGracz=0;
         //alokacja kilenta
     	if ((new_client = (client_t*)calloc(1, sizeof(struct client_t))) == NULL)
     	{
@@ -95,10 +90,26 @@ void listen_connections(int sock,char haslo[])
         		perror( "Blad recv\n" );
         		exit( - 1 );
             }
-
-	    for(int i=0;i<clientList.size();++i)
+            do 
+	    {
+                istniejeGracz=0;		
+		for(int i=0;i<clientList.size();++i)
 	           if(strcmp(clientList[i]->nick,new_client->nick)==0)
-			printf("Jestjuz\n");
+		      istniejeGracz=1;
+                if(istniejeGracz==1)
+		{
+		     write(new_client->socket,"1",2);
+                     printf("Podany gracz istnieje\n");  
+                     if(( recv( new_client->socket,new_client->nick, 50, 0 ) ) <= 0 )
+            	     { 
+        		perror( "Blad recv\n" );
+        		exit( - 1 );
+            	     }	
+                }
+                else
+		      write(new_client->socket,"0",2);
+	    }
+            while(istniejeGracz==1);
             //pthread_mutex_lock(&mutex);
             char czyDobreHaslo[2]="0";
             int i=0;
@@ -132,10 +143,20 @@ void listen_connections(int sock,char haslo[])
         	}
 		liczbaGraczy+=1;
 		
-        	printf("Tryb gracza: %s\n",trybGracza);
+        	printf("Tryb gracza %s: %s\n",new_client->nick,trybGracza);
                 clientList.push_back(new_client);
-                if(liczbaGraczy==4)
-                   printf("oLOLjest5graczy");
+                if(trybGracza[0]=='1')
+	        {
+                   pthread_create(&thread, NULL, player_connection_handler, (void *)new_client);
+   	           //gdy watek sie skonczy zwraca pamiec automatycznie
+                   pthread_detach(thread);
+                }
+                else if(trybGracza[0]=='2')
+	        {
+                   pthread_create(&thread, NULL, spec_connection_handler, (void *)new_client);
+   	           //gdy watek sie skonczy zwraca pamiec automatycznie
+                   pthread_detach(thread);
+                }
             }
  	    pthread_mutex_unlock(&mutex);
 	    printf("test");

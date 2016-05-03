@@ -1,5 +1,8 @@
 /**
  * Autor: Mateusz Skolimowski
+ * 
+ * W tym pliku beda znajdowac sie wszystkie funkcje ktore sluza do obslugi gry od strony serwera.
+ * 
  */
 #include <vector>
 #include <sys/types.h>
@@ -25,11 +28,13 @@ enum numerKarty numeryKart(int i);
 enum typKarty typyKart(int j);
 std::vector<karta> stworzVectorWszystkichKart();
 std::vector<struct client_t*> rozlosujKarty(std::vector<struct client_t*> clientList,std::vector<karta> wszystkieKarty);
+void wypiszKartyGraczy(std::vector<struct client_t*> clientList);
 
 int game(std::vector<struct client_t*> clientList, int iloscGraczy)
 {
 	std::vector<karta> wszystkieKarty = stworzVectorWszystkichKart();
 	clientList = rozlosujKarty(clientList,wszystkieKarty);
+	wypiszKartyGraczy(clientList);
 	while(1)
 	{
         	for(int i=0;i<clientList.size();++i)
@@ -102,4 +107,16 @@ std::vector<struct client_t*> rozlosujKarty(std::vector<struct client_t*> client
 		wszystkieKarty.erase(it);
 	}
 	return clientList;
+}
+
+void wypiszKartyGraczy(std::vector<struct client_t*> clientList)
+{
+	for(int i = 0 ; i < clientList.size() ; i++)
+	{
+		printf("karty gracza : %s\n",clientList[i]->nick);
+		for(int j = 0 ; j < clientList[i]->kartyGracza.size(); j++)
+		{
+			printf("typ : %d , numer : %d\n",clientList[i]->kartyGracza[j].getTyp(),clientList[i]->kartyGracza[j].getNumer());
+		}
+	}
 }

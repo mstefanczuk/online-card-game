@@ -1,5 +1,8 @@
 /**
  * Autor: Mateusz Skolimowski
+ * 
+ * W tym pliku beda znajdowac sie wszystkie funkcje ktore sluza do obslugi gry od strony serwera.
+ * 
  */
 #include <vector>
 #include <sys/types.h>
@@ -38,7 +41,7 @@ int game(std::vector<struct client_t*> clientList, int iloscGraczy)
 			write(clientList[i]->socket, "Rozpoczynamy gre\n",18 );
 		sleep(1);
 		for(int i=0;i<clientList.size();++i)
-			write(clientList[i]->socket, "TEST\n",5 );
+			write(clientList[i]->socket, "test",4 );
 		sleep(1);
 	}
 }

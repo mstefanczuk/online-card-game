@@ -1,5 +1,7 @@
 /**
  * Autor: Mateusz Skolimowski
+ *
+ * klasa definiujaca wlasciowsci kart ktore beda uzywane w grze.
  */
 #ifndef KARTA_H
 #define KARTA_H

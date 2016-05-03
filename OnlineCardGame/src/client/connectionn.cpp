@@ -10,6 +10,7 @@
 #include <string.h>
 #include <unistd.h>
 #include "connectionn.h"
+#include "game.h"
 /*
   Funkcja do tworzenia połączeń, przypisuje adres lokalny gniazdu.
 */
@@ -147,15 +148,7 @@ void create_connection(int argc, char** argv, int& sock,char nick[])
   if(trybGracza[0]!='1' && trybGracza[0]!='2')
         strcpy( trybGracza,"2" );
   write(sock,trybGracza,2);
-  while(1)
-  {
-  	if(( recv( sock, bufor, sizeof( bufor ), 0 ) ) <= 0 )
-  	{
-   	     perror( "Blad recv\n" );
-    	    exit( - 1 );
-  	}
-  	printf( "Server: %s ", bufor );
-  }
+  game(sock);//funkcja ktora obsluguje gre po stronie gracza
   sleep(5);
 }
 

@@ -4,18 +4,18 @@
 #include "karta.h"
 #include <vector>
 
-karta::karta(typKarty t, numerKarty n)
+karta::karta(std::string t, std::string n)
 {
 	this->typ = t;
 	this->numer = n;
 }
 
-enum typKarty karta::getTyp()
+std::string karta::getTyp()
 {
 	return this->typ;
 }
 
-enum numerKarty karta::getNumer()
+std::string karta::getNumer()
 {
 	return this->numer;
 }

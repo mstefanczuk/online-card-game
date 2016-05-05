@@ -4,18 +4,18 @@
 #include "karta.h"
 #include <vector>
 
-karta::karta(typKarty t, numerKarty n)
+karta::karta(std::string t, std::string n)
 {
 	this->typ = t;
 	this->numer = n;
 }
 
-enum typKarty karta::getTyp()
+std::string karta::getTyp()
 {
 	return this->typ;
 }
 
-enum numerKarty karta::getNumer()
+std::string karta::getNumer()
 {
 	return this->numer;
 }
@@ -26,51 +26,4 @@ bool karta::porownajKarty(karta k)
 		return true;
 	else
 		return false;
-}
-
-enum typKarty typyKart(int j)
-{
-	switch (j)
-	{
-		case 0:
-			return PIK;
-		case 1:
-			return TREFL;
-		case 2:
-			return KARO;
-		case 3:
-			return KIER;
-	}
-}
-
-enum numerKarty numeryKart(int i)
-{
-	switch (i)
-	{
-		case 0:
-			return DZIEWIATKA;
-		case 1:
-			return DZIESIATKA;
-		case 2:
-			return WALET;
-		case 3:
-			return DAMA;
-		case 4:
-			return KROL;
-		case 5:
-			return AS;
-	}
-}
-
-std::vector<karta> stworzVectorWszystkichKart()
-{
-	std::vector<karta> v;
-	for(int i = 0 ; i < 6 ; i++)
-	{
-		for(int j = 0 ; j < 4 ; j++)
-		{
-			v.push_back(karta(typyKart(j),numeryKart(i)));
-		}
-	}
-	return v;
 }

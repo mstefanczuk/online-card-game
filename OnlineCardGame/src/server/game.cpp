@@ -13,6 +13,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include "karta.h"
+#include <iostream>
 #include <time.h>
 
 struct client_t
@@ -24,61 +25,74 @@ struct client_t
     std::vector<karta> kartyGracza;
 };
 
-enum numerKarty numeryKart(int i);
-enum typKarty typyKart(int j);
 std::vector<karta> stworzVectorWszystkichKart();
 std::vector<struct client_t*> rozlosujKarty(std::vector<struct client_t*> clientList,std::vector<karta> wszystkieKarty);
-void wypiszKartyGraczy(std::vector<struct client_t*> clientList);
+std::string zamienKartyGraczaNaString(struct client_t*);
+/*funkcja zamieniajaca typ karty podany jako liczba na string*/
+std::string typKarty(int j)
+{
+	switch(j)
+	{
+		case 0:
+			return "PIK";
+		case 1:
+			return "TREFL";
+		case 2: 
+			return "KARO";
+		case 3:
+			return "KIER";
+	}
+}
+/*funkcja zamieniajaca numer karty podany jako liczba na string*/
+std::string numerKarty(int i)
+{
+	switch(i)
+	{
+		case 0:
+			return "DZIEWIATKA";
+		case 1:
+			return "DZIESIATKA";
+		case 2: 
+			return "WALET";
+		case 3:
+			return "DAMA";
+		case 4: 
+			return "KROL";
+		case 5:
+			return "AS";
+	}
+}
 
+/*glowna funkcja obslugujaca gre*/
 int game(std::vector<struct client_t*> clientList, int iloscGraczy)
 {
 	std::vector<karta> wszystkieKarty = stworzVectorWszystkichKart();
 	clientList = rozlosujKarty(clientList,wszystkieKarty);
-	wypiszKartyGraczy(clientList);
-	while(1)
-	{
+	//while(1)
+	//{
         	for(int i=0;i<clientList.size();++i)
 			write(clientList[i]->socket, "Rozpoczynamy gre\n",18 );
 		sleep(1);
 		for(int i=0;i<clientList.size();++i)
-			write(clientList[i]->socket, "test",4 );
+		{
+			std::string s = zamienKartyGraczaNaString(clientList[i]);
+			write(clientList[i]->socket, s.c_str(),s.length() );
+		}
 		sleep(1);
-	}
-}
-enum typKarty typyKart(int j)
-{
-	switch (j)
-	{
-		case 0:
-			return PIK;
-		case 1:
-			return TREFL;
-		case 2:
-			return KARO;
-		case 3:
-			return KIER;
-	}
+	//}
 }
 
-enum numerKarty numeryKart(int i)
+/*funkcja ktora zamienia wszystkie karty gracza na ciag znakow*/
+std::string zamienKartyGraczaNaString(struct client_t* c)
 {
-	switch (i)
+	std::string s = "";
+	for(int i = 0 ; i < c->kartyGracza.size() ; i++)
 	{
-		case 0:
-			return DZIEWIATKA;
-		case 1:
-			return DZIESIATKA;
-		case 2:
-			return WALET;
-		case 3:
-			return DAMA;
-		case 4:
-			return KROL;
-		case 5:
-			return AS;
+		s = s + c->kartyGracza[i].getNumer() + " " + c->kartyGracza[i].getTyp() + "\n";
 	}
+	return s;
 }
-
+/*funkcja ktora tworzy vector wszystkich kart aby mozna bylo je rozlosowac miedzy graczy*/
 std::vector<karta> stworzVectorWszystkichKart()
 {
 	std::vector<karta> v;
@@ -86,12 +100,12 @@ std::vector<karta> stworzVectorWszystkichKart()
 	{
 		for(int j = 0 ; j < 4 ; j++)
 		{
-			v.push_back(karta(typyKart(j),numeryKart(i)));
+			v.push_back(karta(typKarty(j),numerKarty(i)));
 		}
 	}
 	return v;
 }
-
+/*funkcja ktora rozlosowuje karty pomiedzy graczy*/
 std::vector<struct client_t*> rozlosujKarty(std::vector<struct client_t*> clientList,std::vector<karta> wszystkieKarty)
 {
 	srand(time(NULL));
@@ -107,16 +121,4 @@ std::vector<struct client_t*> rozlosujKarty(std::vector<struct client_t*> client
 		wszystkieKarty.erase(it);
 	}
 	return clientList;
-}
-
-void wypiszKartyGraczy(std::vector<struct client_t*> clientList)
-{
-	for(int i = 0 ; i < clientList.size() ; i++)
-	{
-		printf("karty gracza : %s\n",clientList[i]->nick);
-		for(int j = 0 ; j < clientList[i]->kartyGracza.size(); j++)
-		{
-			printf("typ : %d , numer : %d\n",clientList[i]->kartyGracza[j].getTyp(),clientList[i]->kartyGracza[j].getNumer());
-		}
-	}
 }

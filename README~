@@ -17,7 +17,9 @@ TODO:
 - tworzenie watkow logowania, tzn. na samym poczatku kiedy gracze sie loguja do gry to trzeba
   zrobic tak zeby kazdy byl obslugiwany przez oddzielny watek. W tych watkach tworzona bedzie
   lista graczy z ktorej bedziemy korzystac w grze do komunikowania ich o tym jak sie toczy gra.
-- testy polaczenia i wiresharka jak bedzie zrobiony
+  (Kamil)
+- testy polaczenia i wiresharka jak bedzie zrobiony (Karol + Stefan)
+- ustalic czy chcemy korzystac z jasonow czy piszemy cos wlasnego
 TOFIX:
 - usunac sleepy miedzy "write". (sa po to zeby sie nie blokowalo, narazie nie wiem jak to 
   rozwiazac)

@@ -5,6 +5,6 @@
 #define CONNECTION_H
 
 int create_connection();
-void listen_connections(int sock,char haslo[]);
+void listen_connections(int sock,char haslo[],int iluGraczy);
 
 #endif

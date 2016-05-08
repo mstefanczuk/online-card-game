@@ -17,7 +17,7 @@
 #include "spechandler.h"
 #include "loger.h"
 #include "game.h"
-#include "karta.hpp"
+#include "karta.h"
 int MAX_CLIENTS=20;
 struct client_t
 {
@@ -64,7 +64,7 @@ int create_connection()
 /**
  * Funkcja nasłuchująca i dla każdego klienta włączająca odzielny wątek do obsługi
  */
-void listen_connections(int sock,char haslo[])
+void listen_connections(int sock,char haslo[],int iluGraczy)
 {
     int liczbaGraczy=0;
     int temp;
@@ -157,7 +157,7 @@ void listen_connections(int sock,char haslo[])
                    new_client->trybGracza=2;
                 }
                 clientList.push_back(new_client);
-                if(liczbaGraczy==2)
+                if(liczbaGraczy==iluGraczy)
 		{
 			game(clientList,liczbaGraczy);
 		}

@@ -73,7 +73,7 @@ int game(std::vector<struct client_t*> clientList, int iloscGraczy)
 		sleep(1);
 	//while(1)
 	//{
-/*
+
         	for(int i=0;i<clientList.size();++i)
 			write(clientList[i]->socket, "Rozpoczynamy gre\n",18 );
 		sleep(1);
@@ -83,7 +83,17 @@ int game(std::vector<struct client_t*> clientList, int iloscGraczy)
 			write(clientList[i]->socket, s.c_str(),s.length() );
 		}
 		sleep(1);
-*/
+		write(clientList[0]->socket, "wykonaj ruch",12);
+		sleep(1);
+		char b[1024];
+		if(( recv( clientList[0]->socket, b, sizeof( b ), 0 ) ) <= 0 )
+  		{
+   	  	    perror( "Blad recv\n" );
+    		    exit( - 1 );
+  		}
+		printf("klient 0 : %s\n",b);
+		write(clientList[1]->socket,"inny gracz wykonal ruch",23);
+
 	//}
 }
 

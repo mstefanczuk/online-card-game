@@ -68,8 +68,12 @@ int game(std::vector<struct client_t*> clientList, int iloscGraczy)
 {
 	std::vector<karta> wszystkieKarty = stworzVectorWszystkichKart();
 	clientList = rozlosujKarty(clientList,wszystkieKarty);
+	for(int i=0;i<clientList.size();++i)
+			write(clientList[i]->socket, "test",4 );
+		sleep(1);
 	//while(1)
 	//{
+/*
         	for(int i=0;i<clientList.size();++i)
 			write(clientList[i]->socket, "Rozpoczynamy gre\n",18 );
 		sleep(1);
@@ -79,6 +83,7 @@ int game(std::vector<struct client_t*> clientList, int iloscGraczy)
 			write(clientList[i]->socket, s.c_str(),s.length() );
 		}
 		sleep(1);
+*/
 	//}
 }
 

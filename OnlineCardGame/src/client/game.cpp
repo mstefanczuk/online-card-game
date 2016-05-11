@@ -15,6 +15,24 @@
 #include <time.h>
 #include "game.h"
 #include <cstring>
+#include <string>
+
+bool czyTenSamString(char *b, std::string b2)
+{
+	int size;
+	if(sizeof(b) <= b2.length())
+		size = sizeof(b);
+	else
+		size = sizeof(b2);
+	printf("size : %d\n",size);
+	for(int  i = 0 ; i < size ; i++)
+	{
+		printf("b[%d] = %c , b2[%d] = %c\n",i,b[i],i,b2[i]);
+		if(b[i] != b2[i])
+			return false;
+	}
+	return true;
+}
 
 void game(int &sock)
 {
@@ -26,10 +44,10 @@ void game(int &sock)
    	  	    perror( "Blad recv\n" );
     		    exit( - 1 );
   		}
-  		printf( "Server: %s \n", bufor );
-		if (strcmp(bufor,"test"))
+  		printf("Server: %s \n", bufor );
+		if (czyTenSamString(bufor,"test"))
 		{
-			printf("TESTUJE WYSYLANIE STRINGA\n");
+			printf("TESTUJE\n");
 		}
 		else if (strcmp(bufor,"wykonaj ruch"))
 		{

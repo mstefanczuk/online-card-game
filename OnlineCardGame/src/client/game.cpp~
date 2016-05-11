@@ -15,6 +15,24 @@
 #include <time.h>
 #include "game.h"
 #include <cstring>
+#include <string>
+
+bool czyTenSamString(char *b, std::string b2)
+{
+	int size;
+	if(sizeof(b) <= b2.length())
+		size = sizeof(b);
+	else
+		size = sizeof(b2);
+	printf("size : %d\n",size);
+	for(int  i = 0 ; i < size ; i++)
+	{
+		printf("b[%d] = %c , b2[%d] = %c\n",i,b[i],i,b2[i]);
+		if(b[i] != b2[i])
+			return false;
+	}
+	return true;
+}
 
 void game(int &sock)
 {
@@ -26,10 +44,27 @@ void game(int &sock)
    	  	    perror( "Blad recv\n" );
     		    exit( - 1 );
   		}
-  		printf( "Server: %s ", bufor );
-		if (strcmp(bufor,"test"))
+  		printf("Server: %s \n", bufor );
+		if (czyTenSamString(bufor,"test"))
 		{
-			printf("TESTUJE WYSYLANIE STRINGA");
+			printf("TESTUJE\n");
+		}
+		else if (strcmp(bufor,"wykonaj ruch"))
+		{
+			printf("Twoja kolej aby wykonac ruch\n");
+			//pokaz karty jakie sa na stole i jakie ma na rece gracz
+			//tutaj dodac write z odpowiedzia jaki chce wykonac ruch
+		}
+		else if (strcmp(bufor,"bledny ruch"))
+		{
+			printf("Ruch ktory chcesz wykonac jest niepoprawny. Wykonaj inny\n");
+			//pokaz karty jakie sa na stole i jakie ma na rece gracz
+			//tutaj dodac write z odpowiedzia jaki chce wykonac ruch
+		}
+		else if (strcmp(bufor,"inny gracz wykonal ruch"))
+		{
+			printf("Gracz wykonal ruch\n");//dodac jaki to gracz
+			//pokaz karty jakie sa na stole
 		}
   	}
 }

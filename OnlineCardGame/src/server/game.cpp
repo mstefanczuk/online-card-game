@@ -63,38 +63,59 @@ std::string numerKarty(int i)
 	}
 }
 
+void wyslij(struct client_t* c,std::string wiadomosc)
+{
+	write(c->socket,wiadomosc.c_str(),wiadomosc.length());
+}
+
+bool czyKoniecGry(std::vector<struct client_t*> clientList)
+{
+	if(clientList.size() == 1)
+	{
+		return false;
+	}
+	return true;
+}
+
+int ruchGracza(int numerGracza , std::vector<struct client_t*> &clientList)
+{
+	std::string s = zamienKartyGraczaNaString(clientList[numerGracza]);
+	wyslij(clientList[numerGracza], s);
+	sleep(1);
+	wyslij(clientList[numerGracza], "wykonaj ruch");
+	sleep(1);
+	char b[1024];
+	if(( recv( clientList[numerGracza]->socket, b, sizeof( b ), 0 ) ) <= 0 )
+  	{
+   		perror( "Blad recv\n" );
+    		exit( - 1 );
+  	}
+	printf("klient 0 : %s\n",b);
+	for(int i = 0 ; i < clientList.size() ; i++)
+	{
+		wyslij(clientList[i],"inny gracz wykonal ruch");
+	}
+}
+
 /*glowna funkcja obslugujaca gre*/
 int game(std::vector<struct client_t*> clientList, int iloscGraczy)
 {
 	std::vector<karta> wszystkieKarty = stworzVectorWszystkichKart();
 	clientList = rozlosujKarty(clientList,wszystkieKarty);
 	for(int i=0;i<clientList.size();++i)
-			write(clientList[i]->socket, "test",4 );
-		sleep(1);
-	//while(1)
-	//{
-
-        	for(int i=0;i<clientList.size();++i)
-			write(clientList[i]->socket, "Rozpoczynamy gre\n",18 );
-		sleep(1);
-		for(int i=0;i<clientList.size();++i)
-		{
-			std::string s = zamienKartyGraczaNaString(clientList[i]);
-			write(clientList[i]->socket, s.c_str(),s.length() );
-		}
-		sleep(1);
-		write(clientList[0]->socket, "wykonaj ruch",12);
-		sleep(1);
-		char b[1024];
-		if(( recv( clientList[0]->socket, b, sizeof( b ), 0 ) ) <= 0 )
-  		{
-   	  	    perror( "Blad recv\n" );
-    		    exit( - 1 );
-  		}
-		printf("klient 0 : %s\n",b);
-		write(clientList[1]->socket,"inny gracz wykonal ruch",23);
-
-	//}
+		wyslij(clientList[i],"Rozpoczynamy gre");
+	sleep(1);
+	for(int i=0;i<clientList.size();++i)
+	{
+		std::string s = zamienKartyGraczaNaString(clientList[i]);
+		wyslij(clientList[i], s);
+	}
+	sleep(1);
+	int numer = 0;
+	while(czyKoniecGry(clientList))
+	{
+		numer = ruchGracza(numer,clientList);
+	}
 }
 
 /*funkcja ktora zamienia wszystkie karty gracza na ciag znakow*/

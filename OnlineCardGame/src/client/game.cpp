@@ -20,16 +20,12 @@
 bool czyTenSamString(char *b, std::string b2)
 {
 	int size;
-	//printf("size of b = %d\n",sizeof(b));
-	//printf("length of b2 = %d\n",b2.length());
 	if(sizeof(b) <= b2.length())
 		size = sizeof(b);
 	else
 		size = b2.length();
-	//printf("size : %d\n",size);
 	for(int  i = 0 ; i < size ; i++)
 	{
-		//printf("b[%d] = %c , b2[%d] = %c\n",i,b[i],i,b2[i]);
 		if(b[i] != b2[i])
 			return false;
 	}
@@ -55,7 +51,10 @@ void game(int &sock)
 		else if (czyTenSamString(bufor,"wykonaj ruch"))
 		{
 			printf("Twoja kolej aby wykonac ruch\n");
-			write(sock,"test ruch",9);
+			int ktoraKarteZagrac = 5;
+			scanf("podaj ktora karte chcesz zagrac : %d",&ktoraKarteZagrac);
+			std::string s = "zagrywam karte "+ktoraKarteZagrac;
+			write(sock,s.c_str(),s.length());
 			//pokaz karty jakie sa na stole i jakie ma na rece gracz
 			//tutaj dodac write z odpowiedzia jaki chce wykonac ruch
 		}

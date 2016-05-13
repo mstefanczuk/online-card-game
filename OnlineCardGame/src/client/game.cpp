@@ -51,10 +51,13 @@ void game(int &sock)
 		else if (czyTenSamString(bufor,"wykonaj ruch"))
 		{
 			printf("Twoja kolej aby wykonac ruch\n");
-			int ktoraKarteZagrac = 5;
-			scanf("podaj ktora karte chcesz zagrac : %d",&ktoraKarteZagrac);
-			std::string s = "zagrywam karte "+ktoraKarteZagrac;
-			write(sock,s.c_str(),s.length());
+			int ktoraKarteZagrac;
+			getchar();
+			printf("jaka karte chcesz zagrac?\n");
+			scanf("%d",&ktoraKarteZagrac);
+			char buf[16];
+			sprintf(buf,"zagrywam karte %d",ktoraKarteZagrac);
+			write(sock,buf,16);
 			//pokaz karty jakie sa na stole i jakie ma na rece gracz
 			//tutaj dodac write z odpowiedzia jaki chce wykonac ruch
 		}

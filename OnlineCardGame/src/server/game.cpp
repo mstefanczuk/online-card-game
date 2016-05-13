@@ -15,6 +15,8 @@
 #include "karta.h"
 #include <iostream>
 #include <time.h>
+#include <cstring>
+#include <string>
 
 struct client_t
 {
@@ -49,17 +51,17 @@ std::string numerKarty(int i)
 	switch(i)
 	{
 		case 0:
-			return "DZIEWIATKA";
+			return "9";
 		case 1:
-			return "DZIESIATKA";
+			return "10";
 		case 2: 
-			return "WALET";
+			return "J";
 		case 3:
-			return "DAMA";
+			return "D";
 		case 4: 
-			return "KROL";
+			return "K";
 		case 5:
-			return "AS";
+			return "A";
 	}
 }
 
@@ -77,7 +79,19 @@ bool czyKoniecGry(std::vector<struct client_t*> clientList)
 	return true;
 }
 
-int ruchGracza(int numerGracza , std::vector<struct client_t*> &clientList)
+bool sprawdzCzyRuchDozwolony(struct client_t* c,int ktoraKarta,std::vector<karta> stosKart)
+{
+	if(stosKart.empty())
+		return true;	
+	if(stosKart[stosKart.size()-1].porownajKarty(c->kartyGracza[ktoraKarta]))
+	{
+		return true;
+	}
+	else
+		return false;
+}
+
+int ruchGracza(int numerGracza , std::vector<struct client_t*> &clientList,std::vector<karta> &stosKart)
 {
 	std::string s = zamienKartyGraczaNaString(clientList[numerGracza]);
 	wyslij(clientList[numerGracza], s);
@@ -85,16 +99,30 @@ int ruchGracza(int numerGracza , std::vector<struct client_t*> &clientList)
 	wyslij(clientList[numerGracza], "wykonaj ruch");
 	sleep(1);
 	char b[1024];
+	bzero(b,sizeof(b));
 	if(( recv( clientList[numerGracza]->socket, b, sizeof( b ), 0 ) ) <= 0 )
   	{
    		perror( "Blad recv\n" );
     		exit( - 1 );
   	}
-	printf("klient 0 : %s\n",b);
+	printf("klient %d : %s\n",numerGracza,b);\
+	if(sprawdzCzyRuchDozwolony(clientList[numerGracza],b[15]-'0',stosKart))
+	{
+		printf("ruch dowzowolny\n");
+		stosKart.push_back(clientList[numerGracza]->kartyGracza[b[15]-'0']);
+	}
+	else
+	{
+		printf("nope\n");
+	}
+	char numer[20];
+	sprintf(numer,"gracz %d wykonal ruch",numerGracza);
 	for(int i = 0 ; i < clientList.size() ; i++)
 	{
-		wyslij(clientList[i],"inny gracz wykonal ruch");
+		if(i!= numerGracza)
+			wyslij(clientList[i],std::string(numer));
 	}
+	return 0;
 }
 
 /*glowna funkcja obslugujaca gre*/
@@ -112,19 +140,22 @@ int game(std::vector<struct client_t*> clientList, int iloscGraczy)
 	}
 	sleep(1);
 	int numer = 0;
+	std::vector<karta> stosKart;
 	while(czyKoniecGry(clientList))
 	{
-		numer = ruchGracza(numer,clientList);
+		numer = ruchGracza(numer,clientList,stosKart);
 	}
 }
 
 /*funkcja ktora zamienia wszystkie karty gracza na ciag znakow*/
 std::string zamienKartyGraczaNaString(struct client_t* c)
 {
-	std::string s = "";
+	std::string s = "\n";
 	for(int i = 0 ; i < c->kartyGracza.size() ; i++)
 	{
-		s = s + c->kartyGracza[i].getNumer() + " " + c->kartyGracza[i].getTyp() + "\n";
+		char numer[2];
+		sprintf(numer,"%d",i);
+		s = s + numer + "." + c->kartyGracza[i].getNumer() + " " + c->kartyGracza[i].getTyp() + "\n";
 	}
 	return s;
 }

@@ -52,7 +52,9 @@ void game(int &sock)
 		{
 			printf("Twoja kolej aby wykonac ruch\n");
 			int ktoraKarteZagrac;
-			scanf("podaj ktora karte chcesz zagrac : %d",&ktoraKarteZagrac);
+			getchar();
+			printf("jaka karte chcesz zagrac?\n");
+			scanf("%d",&ktoraKarteZagrac);
 			std::string s = "zagrywam karte "+ktoraKarteZagrac;
 			write(sock,s.c_str(),s.length());
 			//pokaz karty jakie sa na stole i jakie ma na rece gracz

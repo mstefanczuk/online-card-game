@@ -81,10 +81,19 @@ bool czyKoniecGry(std::vector<struct client_t*> clientList)
 
 bool sprawdzCzyRuchDozwolony(struct client_t* c,int ktoraKarta,std::vector<karta> stosKart)
 {
-	if(stosKart.empty())
-		return true;	
-	if(stosKart[stosKart.size()-1].porownajKarty(c->kartyGracza[ktoraKarta]))
+	if(c->kartyGracza.size() == ktoraKarta && (!stosKart.empty()))//gracz wybral pobranie kart ze stosu
 	{
+		printf("mozna wykonac ruch bo gracz chce pobrac karty\n");
+		return true;	
+	}	
+	if(stosKart.empty())//nic nie ma na stosie kart wiec mozemy wrzucic jakakolwiek
+	{
+		printf("mozna polozyc kazda karte bo stos pusty\n");
+		return true;
+	}	
+	if(stosKart[stosKart.size()-1].porownajKarty(c->kartyGracza[ktoraKarta]))//sprawdamy czy karta ktora lezy na stosie jest "mniejsza" niz ta ktora chcemy polozyc
+	{
+		printf("mozna wykonac ruch bo karta jest mniejsza");
 		return true;
 	}
 	else
@@ -105,16 +114,46 @@ int ruchGracza(int numerGracza , std::vector<struct client_t*> &clientList,std::
    		perror( "Blad recv\n" );
     		exit( - 1 );
   	}
-	printf("klient %d : %s\n",numerGracza,b);\
-	if(sprawdzCzyRuchDozwolony(clientList[numerGracza],b[15]-'0',stosKart))
+	printf("klient %d : %s\n",numerGracza,b);
+	int numerKartyGracza = b[15] - '0';
+	if(sprawdzCzyRuchDozwolony(clientList[numerGracza],numerKartyGracza,stosKart))
 	{
-		printf("ruch dowzowolny\n");
-		stosKart.push_back(clientList[numerGracza]->kartyGracza[b[15]-'0']);
+		printf("ruch dozwolony\n");
+		if(numerKartyGracza == clientList[numerGracza]->kartyGracza.size())//pobranie kart ze stosu
+		{
+			int ileKartPobrac;
+			if(stosKart.size() > 3)
+			{
+				ileKartPobrac = 3;	
+			}
+			else
+			{
+				ileKartPobrac = stosKart.size()-1;
+			}
+			printf("pobierane sa karty : \n");
+			for(int i = 0 ; i < ileKartPobrac ; i++)
+			{
+				clientList[numerGracza]->kartyGracza.push_back(stosKart[stosKart.size()-1]);
+				stosKart.pop_back();
+				std::cout<<stosKart[stosKart.size()-1].getNumer()+" "+stosKart[stosKart.size()-1].getTyp()<<std::endl;
+			}
+		}
+		else//polozenie karty
+		{
+			std::cout<<"na stos jest polozona karta "+clientList[numerGracza]->kartyGracza[numerKartyGracza].getNumer() + " " + clientList[numerGracza]->kartyGracza[numerKartyGracza].getTyp()<<std::endl;
+			stosKart.push_back(clientList[numerGracza]->kartyGracza[numerKartyGracza]);
+			clientList[numerGracza]->kartyGracza.erase(clientList[numerGracza]->kartyGracza.begin()+numerKartyGracza);
+		}
 	}
 	else
 	{
-		printf("nope\n");
+		printf("ruch NIE dozwolony\n");
+		wyslij(clientList[numerGracza],"ruch nie dozwolony");
 	}
+
+	//TODO dodac funkcje zmieniajaca graczy w kazdej rundzie. 
+	//TODO dodac mozliwosc brania kart ze stosu
+
 	char numer[20];
 	sprintf(numer,"gracz %d wykonal ruch",numerGracza);
 	for(int i = 0 ; i < clientList.size() ; i++)

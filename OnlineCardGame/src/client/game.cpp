@@ -32,6 +32,31 @@ bool czyTenSamString(char *b, std::string b2)
 	return true;
 }
 
+void wykonajRuch(int &sock)
+{
+	printf("Twoja kolej aby wykonac ruch\n");
+	int ktoraKarteZagrac;
+	getchar();
+	printf("jaka karte chcesz zagrac?\n");
+	scanf("%d",&ktoraKarteZagrac);
+	char buf[16];
+	sprintf(buf,"zagrywam karte %d",ktoraKarteZagrac);
+	write(sock,buf,17);
+	char b[1024];
+	bzero(b,sizeof(b));
+  	if(( recv( sock, b, sizeof( b ), 0 ) ) <= 0 )
+  	{
+   	  	perror( "Blad recv\n" );
+    		exit( - 1 );
+  	}
+  	printf("Server: %s \n", b);
+	if(czyTenSamString(b,"ruch nie dozwolony"))
+	{
+		printf("wykonales niedozwolony ruch, sprobuj ponownie\n");
+		wykonajRuch(sock);
+	}
+}
+
 void game(int &sock)
 {
 	char bufor[1024];
@@ -50,16 +75,7 @@ void game(int &sock)
 		}
 		else if (czyTenSamString(bufor,"wykonaj ruch"))
 		{
-			printf("Twoja kolej aby wykonac ruch\n");
-			int ktoraKarteZagrac;
-			getchar();
-			printf("jaka karte chcesz zagrac?\n");
-			scanf("%d",&ktoraKarteZagrac);
-			char buf[16];
-			sprintf(buf,"zagrywam karte %d",ktoraKarteZagrac);
-			write(sock,buf,16);
-			//pokaz karty jakie sa na stole i jakie ma na rece gracz
-			//tutaj dodac write z odpowiedzia jaki chce wykonac ruch
+			wykonajRuch(sock);
 		}
 		else if (czyTenSamString(bufor,"bledny ruch"))
 		{

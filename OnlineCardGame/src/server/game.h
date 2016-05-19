@@ -4,6 +4,9 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include <string>
+#include "karta.h"
+
 int game(std::vector<struct client_t*> clientList, int iloscGraczy);
 std::vector<karta> stworzVectorWszystkichKart();
 std::vector<struct client_t*> rozlosujKarty(std::vector<struct client_t*> clientList,std::vector<karta> wszystkieKarty,int &numerGraczaKtoryRozpoczyna);

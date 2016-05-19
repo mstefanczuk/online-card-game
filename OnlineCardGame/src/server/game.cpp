@@ -17,6 +17,7 @@
 #include <time.h>
 #include <cstring>
 #include <string>
+#include "game.h"
 
 struct client_t
 {
@@ -148,13 +149,13 @@ int ruchGracza(int numerGracza , std::vector<struct client_t*> &clientList,std::
 	printf("klient %d : %s\n",numerGracza,b);
 	int numerKartyGracza;
 	printf("b[16] = %d\n",b[16]);
-	if(b[16] != '0' || b[16] != '1' || b[16] != '2' || b[16] != '3' || b[16] != '4' || b[16] != '5' || b[16] != '6' || b[16] != '7' || b[16] != '8' || b[16] != '9')
+	if(b[16] == '0' || b[16] == '1' || b[16] == '2' || b[16] == '3' || b[16] == '4' || b[16] == '5' || b[16] == '6' || b[16] == '7' || b[16] == '8' || b[16] == '9')
 	{
-		numerKartyGracza = b[15] - '0';	
+		numerKartyGracza = b[16] - '0' + (b[15] - '0')*10;	
 	}
 	else
 	{
-		numerKartyGracza = b[16] - '0' + (b[15] - '0')*10;
+		numerKartyGracza = b[15] - '0';
 	}
 	std::cout<<"b[15] = "<<b[15]<<" b[16] = "<<b[16]<<" nkg = "<<numerKartyGracza<<std::endl;
 	if(sprawdzCzyRuchDozwolony(clientList[numerGracza],numerKartyGracza,stosKart))
@@ -175,8 +176,8 @@ int ruchGracza(int numerGracza , std::vector<struct client_t*> &clientList,std::
 			for(int i = 0 ; i < ileKartPobrac ; i++)
 			{
 				clientList[numerGracza]->kartyGracza.push_back(stosKart[stosKart.size()-1]);
-				stosKart.pop_back();
 				std::cout<<stosKart[stosKart.size()-1].getNumer()+" "+stosKart[stosKart.size()-1].getTyp()<<std::endl;
+				stosKart.pop_back();
 			}
 			if (numerGracza < clientList.size()-1)
 				return numerGracza+1;

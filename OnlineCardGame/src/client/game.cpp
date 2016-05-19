@@ -17,6 +17,8 @@
 #include <cstring>
 #include <string>
 
+/*funkcja pomocnicza porownujaca stringi. Nie skorzystalem ze standardowych poniewaz
+mialem problem z wersja kompilatora jakiego uzywamy*/
 bool czyTenSamString(char *b, std::string b2)
 {
 	int size;
@@ -32,6 +34,7 @@ bool czyTenSamString(char *b, std::string b2)
 	return true;
 }
 
+/*funkcja ktora obsluguje wykonanie ruchu przez gracza*/
 void wykonajRuch(int &sock)
 {
 	printf("Twoja kolej aby wykonac ruch\n");
@@ -57,6 +60,8 @@ void wykonajRuch(int &sock)
 	}
 }
 
+/*funkcja obslugujaca gre po stronie klienta. w petli ciagle odbiera komunikaty i w zaleznosci
+od tego co dostanie wywoluje funkcje obslugujace dana sytuacje*/
 void game(int &sock)
 {
 	char bufor[1024];
@@ -69,24 +74,18 @@ void game(int &sock)
     		    exit( - 1 );
   		}
   		printf("Server: %s \n", bufor );
-		if (czyTenSamString(bufor,"test"))
-		{
-			printf("TESTUJE\n");
-		}
-		else if (czyTenSamString(bufor,"wykonaj ruch"))
+		if (czyTenSamString(bufor,"wykonaj ruch"))
 		{
 			wykonajRuch(sock);
 		}
 		else if (czyTenSamString(bufor,"ruch nie dozwolony"))
 		{
 			printf("Ruch ktory chcesz wykonac jest niepoprawny. Wykonaj inny\n");
-			//pokaz karty jakie sa na stole i jakie ma na rece gracz
-			//tutaj dodac write z odpowiedzia jaki chce wykonac ruch
 		}
 		else if (czyTenSamString(bufor,"inny gracz wykonal ruch"))
 		{
 			printf("Gracz wykonal ruch\n");//dodac jaki to gracz
-			//pokaz karty jakie sa na stole
+			//pokazac karty na stole
 		}
   	}
 }

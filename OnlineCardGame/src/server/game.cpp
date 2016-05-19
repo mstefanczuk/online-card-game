@@ -28,7 +28,7 @@ struct client_t
 };
 
 std::vector<karta> stworzVectorWszystkichKart();
-std::vector<struct client_t*> rozlosujKarty(std::vector<struct client_t*> clientList,std::vector<karta> wszystkieKarty);
+std::vector<struct client_t*> rozlosujKarty(std::vector<struct client_t*> clientList,std::vector<karta> wszystkieKarty,int &numerGraczaKtoryRozpoczyna);
 std::string zamienKartyGraczaNaString(struct client_t*);
 /*funkcja zamieniajaca typ karty podany jako liczba na string*/
 std::string typKarty(int j)
@@ -115,7 +115,17 @@ int ruchGracza(int numerGracza , std::vector<struct client_t*> &clientList,std::
     		exit( - 1 );
   	}
 	printf("klient %d : %s\n",numerGracza,b);
-	int numerKartyGracza = b[15] - '0';
+	int numerKartyGracza;
+	printf("b[16] = %d\n",b[16]);
+	if(b[16] != '0' || b[16] != '1' || b[16] != '2' || b[16] != '3' || b[16] != '4' || b[16] != '5' || b[16] != '6' || b[16] != '7' || b[16] != '8' || b[16] != '9')
+	{
+		numerKartyGracza = b[15] - '0';	
+	}
+	else
+	{
+		numerKartyGracza = b[16] - '0' + (b[15] - '0')*10;
+	}
+	std::cout<<"b[15] = "<<b[15]<<" b[16] = "<<b[16]<<" nkg = "<<numerKartyGracza<<std::endl;
 	if(sprawdzCzyRuchDozwolony(clientList[numerGracza],numerKartyGracza,stosKart))
 	{
 		printf("ruch dozwolony\n");
@@ -137,38 +147,62 @@ int ruchGracza(int numerGracza , std::vector<struct client_t*> &clientList,std::
 				stosKart.pop_back();
 				std::cout<<stosKart[stosKart.size()-1].getNumer()+" "+stosKart[stosKart.size()-1].getTyp()<<std::endl;
 			}
+			if (numerGracza < clientList.size()-1)
+				return numerGracza+1;
+			else
+				return 0;
+			
 		}
 		else//polozenie karty
 		{
+			std::cout<<"numer karty ktora gracz chce polozyc : "<<numerKartyGracza<<std::endl;
 			std::cout<<"na stos jest polozona karta "+clientList[numerGracza]->kartyGracza[numerKartyGracza].getNumer() + " " + clientList[numerGracza]->kartyGracza[numerKartyGracza].getTyp()<<std::endl;
 			stosKart.push_back(clientList[numerGracza]->kartyGracza[numerKartyGracza]);
 			clientList[numerGracza]->kartyGracza.erase(clientList[numerGracza]->kartyGracza.begin()+numerKartyGracza);
+			if(clientList[numerGracza]->kartyGracza.size() == 0)
+			{
+				printf("gracz %d skonczyl gre\n",numerGracza);
+				clientList.erase(clientList.begin()+numerGracza);
+			}
+			if(stosKart[stosKart.size()-1].getTyp() != "PIK")
+			{
+				printf("kolejka idzie dalej\n");
+				if (numerGracza < clientList.size()-1)
+					return numerGracza+1;
+				else
+					return 0;
+			}
+			else
+			{
+				printf("polozony PIK wiec cofam\n");
+				if (numerGracza != 0)
+					return numerGracza-1;
+				else
+					return clientList.size()-1;
+			}
+		}
+		char numer[20];
+		sprintf(numer,"gracz %d wykonal ruch",numerGracza);
+		for(int i = 0 ; i < clientList.size() ; i++)
+		{
+			if(i!= numerGracza)
+				wyslij(clientList[i],std::string(numer));
 		}
 	}
 	else
 	{
 		printf("ruch NIE dozwolony\n");
 		wyslij(clientList[numerGracza],"ruch nie dozwolony");
+		return numerGracza;
 	}
-
-	//TODO dodac funkcje zmieniajaca graczy w kazdej rundzie. 
-	//TODO dodac mozliwosc brania kart ze stosu
-
-	char numer[20];
-	sprintf(numer,"gracz %d wykonal ruch",numerGracza);
-	for(int i = 0 ; i < clientList.size() ; i++)
-	{
-		if(i!= numerGracza)
-			wyslij(clientList[i],std::string(numer));
-	}
-	return 0;
 }
 
 /*glowna funkcja obslugujaca gre*/
 int game(std::vector<struct client_t*> clientList, int iloscGraczy)
 {
 	std::vector<karta> wszystkieKarty = stworzVectorWszystkichKart();
-	clientList = rozlosujKarty(clientList,wszystkieKarty);
+	int kogoJestTura;
+	clientList = rozlosujKarty(clientList,wszystkieKarty,kogoJestTura);
 	for(int i=0;i<clientList.size();++i)
 		wyslij(clientList[i],"Rozpoczynamy gre");
 	sleep(1);
@@ -178,12 +212,12 @@ int game(std::vector<struct client_t*> clientList, int iloscGraczy)
 		wyslij(clientList[i], s);
 	}
 	sleep(1);
-	int numer = 0;
 	std::vector<karta> stosKart;
 	while(czyKoniecGry(clientList))
 	{
-		numer = ruchGracza(numer,clientList,stosKart);
+		kogoJestTura = ruchGracza(kogoJestTura,clientList,stosKart);
 	}
+	printf("KONIEC GRY\n");
 }
 
 /*funkcja ktora zamienia wszystkie karty gracza na ciag znakow*/
@@ -212,15 +246,25 @@ std::vector<karta> stworzVectorWszystkichKart()
 	return v;
 }
 /*funkcja ktora rozlosowuje karty pomiedzy graczy*/
-std::vector<struct client_t*> rozlosujKarty(std::vector<struct client_t*> clientList,std::vector<karta> wszystkieKarty)
+std::vector<struct client_t*> rozlosujKarty(std::vector<struct client_t*> clientList,std::vector<karta> wszystkieKarty, int &numerGraczaKtoryRozpoczyna)
 {
 	srand(time(NULL));
+	bool czyWiemyKtoZaczyna = false;
 	for(int i = 0 ; 0 < wszystkieKarty.size(); i++)
 	{
 		if (i%clientList.size() == 0)
 			i = 0;
 		int losowa = rand() % wszystkieKarty.size();
 		clientList.at(i)->kartyGracza.push_back(karta(wszystkieKarty.at(losowa).getTyp(),wszystkieKarty.at(losowa).getNumer()));
+		if(!czyWiemyKtoZaczyna)
+		{
+			if(wszystkieKarty.at(losowa).getTyp() == "KIER" && wszystkieKarty.at(losowa).getNumer() == "9")
+			{
+				printf("bedzie rozpoczynal gracz %d\n",i+1);
+				numerGraczaKtoryRozpoczyna = i;
+				czyWiemyKtoZaczyna = true;
+			}
+		}
 		std::vector<karta>::iterator it;
 		it = wszystkieKarty.begin();
 		it += losowa;

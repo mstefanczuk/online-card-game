@@ -77,7 +77,7 @@ void game(int &sock)
 		{
 			wykonajRuch(sock);
 		}
-		else if (czyTenSamString(bufor,"bledny ruch"))
+		else if (czyTenSamString(bufor,"ruch nie dozwolony"))
 		{
 			printf("Ruch ktory chcesz wykonac jest niepoprawny. Wykonaj inny\n");
 			//pokaz karty jakie sa na stole i jakie ma na rece gracz

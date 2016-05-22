@@ -17,6 +17,8 @@
 #include <cstring>
 #include <string>
 
+/*funkcja pomocnicza porownujaca stringi. Nie skorzystalem ze standardowych poniewaz
+mialem problem z wersja kompilatora jakiego uzywamy*/
 bool czyTenSamString(char *b, std::string b2)
 {
 	int size;
@@ -32,6 +34,34 @@ bool czyTenSamString(char *b, std::string b2)
 	return true;
 }
 
+/*funkcja ktora obsluguje wykonanie ruchu przez gracza*/
+void wykonajRuch(int &sock)
+{
+	printf("Twoja kolej aby wykonac ruch\n");
+	int ktoraKarteZagrac;
+	getchar();
+	printf("jaka karte chcesz zagrac?\n");
+	scanf("%d",&ktoraKarteZagrac);
+	char buf[16];
+	sprintf(buf,"zagrywam karte %d",ktoraKarteZagrac);
+	write(sock,buf,17);
+	char b[1024];
+	bzero(b,sizeof(b));
+  	if(( recv( sock, b, sizeof( b ), 0 ) ) <= 0 )
+  	{
+   	  	perror( "Blad recv\n" );
+    		exit( - 1 );
+  	}
+  	printf("Server: %s \n", b);
+	if(czyTenSamString(b,"ruch nie dozwolony"))
+	{
+		printf("wykonales niedozwolony ruch, sprobuj ponownie\n");
+		wykonajRuch(sock);
+	}
+}
+
+/*funkcja obslugujaca gre po stronie klienta. w petli ciagle odbiera komunikaty i w zaleznosci
+od tego co dostanie wywoluje funkcje obslugujace dana sytuacje*/
 void game(int &sock)
 {
 	char bufor[1024];
@@ -44,32 +74,18 @@ void game(int &sock)
     		    exit( - 1 );
   		}
   		printf("Server: %s \n", bufor );
-		if (czyTenSamString(bufor,"test"))
+		if (czyTenSamString(bufor,"wykonaj ruch"))
 		{
-			printf("TESTUJE\n");
+			wykonajRuch(sock);
 		}
-		else if (czyTenSamString(bufor,"wykonaj ruch"))
-		{
-			printf("Twoja kolej aby wykonac ruch\n");
-			int ktoraKarteZagrac;
-			getchar();
-			printf("jaka karte chcesz zagrac?\n");
-			scanf("%d",&ktoraKarteZagrac);
-			std::string s = "zagrywam karte "+ktoraKarteZagrac;
-			write(sock,s.c_str(),s.length());
-			//pokaz karty jakie sa na stole i jakie ma na rece gracz
-			//tutaj dodac write z odpowiedzia jaki chce wykonac ruch
-		}
-		else if (czyTenSamString(bufor,"bledny ruch"))
+		else if (czyTenSamString(bufor,"ruch nie dozwolony"))
 		{
 			printf("Ruch ktory chcesz wykonac jest niepoprawny. Wykonaj inny\n");
-			//pokaz karty jakie sa na stole i jakie ma na rece gracz
-			//tutaj dodac write z odpowiedzia jaki chce wykonac ruch
 		}
 		else if (czyTenSamString(bufor,"inny gracz wykonal ruch"))
 		{
 			printf("Gracz wykonal ruch\n");//dodac jaki to gracz
-			//pokaz karty jakie sa na stole
+			//pokazac karty na stole
 		}
   	}
 }

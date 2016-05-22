@@ -58,6 +58,10 @@ void wykonajRuch(int &sock)
 		printf("wykonales niedozwolony ruch, sprobuj ponownie\n");
 		wykonajRuch(sock);
 	}
+	else
+	{
+		printf("wykonales poprawny ruch. Kolejka idzie dalej\n");
+	}
 }
 
 /*funkcja obslugujaca gre po stronie klienta. w petli ciagle odbiera komunikaty i w zaleznosci

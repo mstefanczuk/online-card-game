@@ -17,7 +17,9 @@
 #include "spechandler.h"
 #include "loger.h"
 #include "game.h"
+#include "chat.h"
 #include "karta.h"
+
 int MAX_CLIENTS=20;
 struct client_t
 {
@@ -72,6 +74,7 @@ void listen_connections(int sock,char haslo[],int iluGraczy)
     listen(sock, MAX_CLIENTS);
     pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
     std::vector<struct client_t*> clientList;
+    std::vector<struct client_t*> chatList;
     do 
     {
         char trybGracza[2];
@@ -151,14 +154,18 @@ void listen_connections(int sock,char haslo[],int iluGraczy)
 	        {
                    new_client->trybGracza=1;
                    liczbaGraczy+=1;
+		   clientList.push_back(new_client);
                 }
                 else 
 	        {
                    new_client->trybGracza=2;
+		   chatList.push_back(new_client);
                 }
-                clientList.push_back(new_client);
                 if(liczbaGraczy==iluGraczy)
 		{
+			pthread_t watek;
+			if(pthread_create(&watek,NULL,chat,&chatList))
+				printf("blad przy tworzeniu watku\n");
 			game(clientList,liczbaGraczy);
 		}
             }

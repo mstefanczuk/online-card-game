@@ -1,7 +1,7 @@
 /**
  * Autor: Mateusz Skolimowski
  * 
- * W tym pliku beda znajdowac sie wszystkie funkcje ktore sluza do obslugi gry od strony serwera.
+ * W tym pliku beda znajdowac sie wszystkie funkcje ktore sluza do obslugi chatu od strony serwera.
  * 
  */
 #include <vector>
@@ -16,6 +16,7 @@
 #include <iostream>
 #include <time.h>
 #include <cstring>
+#include <pthread.h>
 #include <string>
 #include "game.h"
 
@@ -28,11 +29,28 @@ struct client_t
     std::vector<karta> kartyGracza;
 };
 
-/*glowna funkcja obslugujaca gre. Rozdaje Karty miedzy graczy,
-wysyla im komunikat ze gra sie rozpoczela i w petli obsluguje ruchy
-kolejnych graczy*/
-int chat(void *arg)
+void* nasluchuj(void* args)
 {
-	std::vector<struct client_t*> chatList = *((std::vector<struct client_t*>*)arg);
-	printf("KONIEC GRY\n");
+	struct client_t* c = static_cast<struct client_t*>(args);
+	std::cout<<"nasluchuj : "<<c->socket<<std::endl;
+	char bufor[1024];
+	if(( recv( c->socket, bufor, sizeof(bufor), 0 ) ) <= 0 )
+        {
+        	perror( "Blad recv\n" );
+        	exit( - 1 );
+        }
+	printf("widz %s wyslal wiadomosc %s\n",c->nick,bufor);
+}
+
+/*glowna funkcja obslugujaca chat*/
+void* chat(void* args)
+{
+	/*std::vector<struct client_t*>* chatList = static_cast<std::vector<struct client_t*>*>(args);
+	std::cout<<"chat : "<<chatList[0]->socket<<std::endl;
+	for(int i = 0 ; i < chatList->size() ; i++)
+	{
+		pthread_t watek;
+		if(pthread_create(&watek,NULL,nasluchuj,&chatList[i]))
+			printf("blad przy tworzeniu watku\n");
+	}*/
 }

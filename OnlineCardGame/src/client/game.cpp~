@@ -58,6 +58,10 @@ void wykonajRuch(int &sock)
 		printf("wykonales niedozwolony ruch, sprobuj ponownie\n");
 		wykonajRuch(sock);
 	}
+	else
+	{
+		printf("wykonales poprawny ruch. Kolejka idzie dalej\n");
+	}
 }
 
 /*funkcja obslugujaca gre po stronie klienta. w petli ciagle odbiera komunikaty i w zaleznosci
@@ -70,6 +74,7 @@ void game(int &sock)
 		bzero(bufor,sizeof(bufor));
   		if(( recv( sock, bufor, sizeof( bufor ), 0 ) ) <= 0 )
   		{
+			printf("czy stad jest blad?\n");
    	  	    perror( "Blad recv\n" );
     		    exit( - 1 );
   		}

@@ -36,9 +36,11 @@ int game(std::vector<struct client_t*> clientList, int iloscGraczy)
 	std::vector<karta> wszystkieKarty = stworzVectorWszystkichKart();
 	int kogoJestTura;
 	clientList = rozlosujKarty(clientList,wszystkieKarty,kogoJestTura);
+	printf("test\n");
 	for(int i=0;i<clientList.size();++i)
 		wyslij(clientList[i],"Rozpoczynamy gre");
 	sleep(1);
+	printf("test2\n");
 	for(int i=0;i<clientList.size();++i)
 	{
 		std::string s = zamienKartyNaString(clientList[i]->kartyGracza);

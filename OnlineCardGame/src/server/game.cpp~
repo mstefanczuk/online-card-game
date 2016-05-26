@@ -36,9 +36,16 @@ int game(std::vector<struct client_t*> clientList, int iloscGraczy)
 	std::vector<karta> wszystkieKarty = stworzVectorWszystkichKart();
 	int kogoJestTura;
 	clientList = rozlosujKarty(clientList,wszystkieKarty,kogoJestTura);
+	printf("test\n");
 	for(int i=0;i<clientList.size();++i)
+	{
+		std::cout<<clientList[i]->socket<<std::endl;
+		std::cout<<clientList[i]->nick<<std::endl;
+		std::cout<<clientList[i]->trybGracza<<std::endl;
 		wyslij(clientList[i],"Rozpoczynamy gre");
+	}
 	sleep(1);
+	printf("test2\n");
 	for(int i=0;i<clientList.size();++i)
 	{
 		std::string s = zamienKartyNaString(clientList[i]->kartyGracza);
@@ -250,8 +257,8 @@ int pobierzKartyZeStosu(int numerGracza , std::vector<struct client_t*> &clientL
 	{
 		if(i!= numerGracza)
 			wyslij(clientList[i],std::string(numer)+
-clientList[numerGracza]->kartyGracza[clientList[numerGracza]->kartyGracza.size()-1].getNumer()+" "+clientList[numerGracza]->kartyGracza[clientList[numerGracza]->kartyGracza.size()-1].getTyp()+"\n"+
-clientList[numerGracza]->kartyGracza[clientList[numerGracza]->kartyGracza.size()-2].getNumer()+" "+clientList[numerGracza]->kartyGracza[clientList[numerGracza]->kartyGracza.size()-2].getTyp()+"\n"+
+clientList[numerGracza]->kartyGracza[clientList[numerGracza]->kartyGracza.size()-1].getNumer()+" "+clientList[numerGracza]->kartyGracza[clientList[numerGracza]->kartyGracza.size()-1].getTyp()+" "+
+clientList[numerGracza]->kartyGracza[clientList[numerGracza]->kartyGracza.size()-2].getNumer()+" "+clientList[numerGracza]->kartyGracza[clientList[numerGracza]->kartyGracza.size()-2].getTyp()+" "+
 clientList[numerGracza]->kartyGracza[clientList[numerGracza]->kartyGracza.size()-3].getNumer()+" "+clientList[numerGracza]->kartyGracza[clientList[numerGracza]->kartyGracza.size()-3].getTyp()+"\n");
 	}
 	if (numerGracza < clientList.size()-1)

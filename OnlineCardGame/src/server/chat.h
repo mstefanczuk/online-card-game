@@ -7,5 +7,5 @@
 #include <string>
 #include "karta.h"
 
-int chat(void *arg);
+void* chat(void *arg);
 #endif

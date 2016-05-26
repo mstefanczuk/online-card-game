@@ -150,7 +150,7 @@ void listen_connections(int sock,char haslo[],int iluGraczy)
         	     exit( - 1 );
         	}
         	printf("Tryb gracza %s: %s\n",new_client->nick,trybGracza);
-                if(trybGracza[0]=='1' && clientList.size()<4)
+                if(trybGracza[0]=='1' && clientList.size()<iluGraczy)
 	        {
                    new_client->trybGracza=1;
                    liczbaGraczy+=1;
@@ -164,8 +164,12 @@ void listen_connections(int sock,char haslo[],int iluGraczy)
                 if(liczbaGraczy==iluGraczy)
 		{
 			pthread_t watek;
-			if(pthread_create(&watek,NULL,chat,&chatList))
-				printf("blad przy tworzeniu watku\n");
+			if(chatList.size() != 0)
+			{
+				std::cout<<"connection "<<chatList[0]->socket<<std::endl;
+				if(pthread_create(&watek,NULL,chat,chatList))
+					printf("blad przy tworzeniu watku\n");
+			}
 			game(clientList,liczbaGraczy);
 		}
             }

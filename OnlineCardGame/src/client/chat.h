@@ -5,7 +5,7 @@
 #define CHAT_H
 
 #include <string>
-#include "karta.h"
 
-int chat(void *arg);
+void chat(int &sock);
+
 #endif

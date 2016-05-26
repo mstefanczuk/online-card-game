@@ -63,15 +63,6 @@ int create_connection()
 
 }
 
-void* chatt(void* args)
-{
-	std::vector<struct client_t*>* chatList = static_cast<std::vector<struct client_t*>*>(args);
-	for(int i = 0 ; i < chatList->size() ; i++)
-	{
-		printf("chat %d\n",i);
-	}
-}
-
 /**
  * Funkcja nasłuchująca i dla każdego klienta włączająca odzielny wątek do obsługi
  */
@@ -159,7 +150,7 @@ void listen_connections(int sock,char haslo[],int iluGraczy)
         	     exit( - 1 );
         	}
         	printf("Tryb gracza %s: %s\n",new_client->nick,trybGracza);
-                if(trybGracza[0]=='1' && clientList.size()<4)
+                if(trybGracza[0]=='1' && clientList.size()<iluGraczy)
 	        {
                    new_client->trybGracza=1;
                    liczbaGraczy+=1;
@@ -173,13 +164,11 @@ void listen_connections(int sock,char haslo[],int iluGraczy)
                 if(liczbaGraczy==iluGraczy)
 		{
 			pthread_t watek;
-			//std::vector<struct client_t*> *arg = malloc(sizeof(arg));
-			//if(arg != NULL)
-			//{
-			//	*arg = chatList;
-				if(pthread_create(&watek,NULL,chatt,&chatList))
+			if(chatList.size() != 0)
+			{
+				if(pthread_create(&watek,NULL,chat,chatList))
 					printf("blad przy tworzeniu watku\n");
-			//}
+			}
 			game(clientList,liczbaGraczy);
 		}
             }

@@ -19,6 +19,7 @@
 #include "game.h"
 #include "chat.h"
 #include "karta.h"
+#include <thread>
 
 int MAX_CLIENTS=20;
 struct client_t
@@ -62,6 +63,11 @@ int create_connection()
     return sock;
 
 }
+
+struct test
+{
+	std::vector<struct client_t*> chatList;
+};
 
 /**
  * Funkcja nasłuchująca i dla każdego klienta włączająca odzielny wątek do obsługi
@@ -165,13 +171,16 @@ void listen_connections(int sock,char haslo[],int iluGraczy)
 		{			
 			if(chatList.size() != 0)
 			{
-				pthread_t watek[chatList.size()];
+				std::thread t[chatList.size()];
 				for(int i = 0 ; i < chatList.size() ; i++)
 				{
 					std::cout<<"connection "<<chatList[i]->socket<<std::endl;
-					int n = 42
-					if(pthread_create(&watek[i],NULL,chat,(void *)&n))
-						printf("blad przy tworzeniu watku\n");
+					t[i] = std::thread(chat,chatList);
+				}
+				for(int i = 0 ; i < chatList.size() ; i++)
+				{
+					std::cout<<"connection "<<chatList[i]->socket<<std::endl;
+					t[i].join();
 				}
 			}
 			game(clientList,liczbaGraczy);

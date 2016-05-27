@@ -8,8 +8,23 @@
 #include "connection.h"
 #include <thread>
 
+void w1(int x)
+{
+	printf("%d",x);
+}
+
 int main(int argc, char **argv)
 {
+
+	std::thread t[5];
+	for(int i = 0 ; i < 5 ; i++)
+	{
+		t[i] = std::thread(w1,i);
+	}
+	for(int i = 0 ; i < 5 ; i++)
+	{
+		t[i].join();
+	}
     int socket, http_socket;
     int getC;
     int iluGraczy;

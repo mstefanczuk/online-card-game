@@ -7,5 +7,5 @@
 #include <string>
 #include "karta.h"
 
-void* chat(void *arg);
+void chat(std::vector<struct client_t*> chatList,int numer);
 #endif

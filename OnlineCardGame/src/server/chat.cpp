@@ -19,6 +19,7 @@
 #include <pthread.h>
 #include <string>
 #include "game.h"
+//#include <boost/thread/thread.hpp>
 
 struct client_t
 {
@@ -29,11 +30,12 @@ struct client_t
     std::vector<karta> kartyGracza;
 };
 
+
 /*glowna funkcja obslugujaca chat*/
-void* chat(void* args)
+void chat(std::vector<struct client_t*> chatList,int numer)
 {
-	int n = *((int *)args);
-	printf("chat : %d\n",n);
-	//struct client_t* c = (struct client_t*) args;
-	//std::cout<<"chat : "<<c->socket<<std::endl;
+	for(int i = 0 ; i < chatList.size() ; i++)
+	{
+		printf("[w%d]chatlist[%d].sock = %d\n",numer,i,chatList[i]->socket);
+	}
 }

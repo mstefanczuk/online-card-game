@@ -29,28 +29,11 @@ struct client_t
     std::vector<karta> kartyGracza;
 };
 
-void* nasluchuj(void* args)
-{
-	struct client_t* c = static_cast<struct client_t*>(args);
-	std::cout<<"nasluchuj : "<<c->socket<<std::endl;
-	char bufor[1024];
-	if(( recv( c->socket, bufor, sizeof(bufor), 0 ) ) <= 0 )
-        {
-        	perror( "Blad recv\n" );
-        	exit( - 1 );
-        }
-	printf("widz %s wyslal wiadomosc %s\n",c->nick,bufor);
-}
-
 /*glowna funkcja obslugujaca chat*/
 void* chat(void* args)
 {
-	/*std::vector<struct client_t*>* chatList = static_cast<std::vector<struct client_t*>*>(args);
-	std::cout<<"chat : "<<chatList[0]->socket<<std::endl;
-	for(int i = 0 ; i < chatList->size() ; i++)
-	{
-		pthread_t watek;
-		if(pthread_create(&watek,NULL,nasluchuj,&chatList[i]))
-			printf("blad przy tworzeniu watku\n");
-	}*/
+	int n = *((int *)args);
+	std::cout<<"chat  : "<<n<<std::endl;
+	//struct client_t* c = (struct client_t*) args;
+	//std::cout<<"chat : "<<c->socket<<std::endl;
 }

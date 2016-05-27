@@ -1,0 +1,6 @@
+#!/bin/bash
+
+(
+echo "jakiesHaslo"
+echo "2"
+) | OnlineCardGame/src/server/server

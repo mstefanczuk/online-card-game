@@ -1,0 +1,6 @@
+#!/bin/bash
+
+chmod +x skryptServer
+chmod +x skryptClient
+
+xterm -hold -e ./skryptServer & xterm -hold -e ./skryptClient jakisNick1 & xterm -hold -e ./skryptClient jakisNick2

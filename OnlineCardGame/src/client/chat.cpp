@@ -16,18 +16,19 @@
 #include "game.h"
 #include <cstring>
 #include <string>
+#include <iostream>
 
 
 void chat(int &sock)
 {
+	std::string s;
+	std::getline(std::cin,s);
 	while(1)
 	{	
-		char buf[200];
 		printf("co chcesz napisac do innych?\n");
-		scanf("%s",buf);
-    		getchar();
-		write(sock,buf,sizeof(buf));
-		bzero(buf,sizeof(buf));
+		std::getline(std::cin,s);
+		std::cout<<"wczytany string : "<<s<<std::endl;
+		write(sock,s.c_str(),s.length());
 	}
 }
 

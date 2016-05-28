@@ -179,11 +179,12 @@ void listen_connections(int sock,char haslo[],int iluGraczy)
 					t[i] = std::thread(chat,chatList,i,std::ref(czyKoniecGry));
 				}
 			}
-			game(clientList,liczbaGraczy);
+			game(clientList,liczbaGraczy,std::ref(czyKoniecGry));
 			for(int i = 0 ; i < chatList.size() ; i++)
 			{
 				std::cout<<"connection "<<chatList[i]->socket<<std::endl;
 				t[i].join();
+				std::cout<<"watki skonczyly"<<std::endl;
 			}
 		}
             }

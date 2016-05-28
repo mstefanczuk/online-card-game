@@ -7,7 +7,7 @@
 #include <string>
 #include "karta.h"
 
-int game(std::vector<struct client_t*> clientList, int iloscGraczy);
+int game(std::vector<struct client_t*> clientList, int iloscGraczy,bool &czyKoniecGry);
 std::vector<karta> stworzVectorWszystkichKart();
 std::vector<struct client_t*> rozlosujKarty(std::vector<struct client_t*> clientList,std::vector<karta> wszystkieKarty,int &numerGraczaKtoryRozpoczyna);
 std::string zamienKartyNaString(std::vector<karta> karty);

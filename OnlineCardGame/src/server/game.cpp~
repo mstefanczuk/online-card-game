@@ -31,21 +31,18 @@ struct client_t
 /*glowna funkcja obslugujaca gre. Rozdaje Karty miedzy graczy,
 wysyla im komunikat ze gra sie rozpoczela i w petli obsluguje ruchy
 kolejnych graczy*/
-int game(std::vector<struct client_t*> clientList, int iloscGraczy)
+int game(std::vector<struct client_t*> clientList, int iloscGraczy,bool &czyKoniecGry)
 {
 	std::vector<karta> wszystkieKarty = stworzVectorWszystkichKart();
 	int kogoJestTura;
-	clientList = rozlosujKarty(clientList,wszystkieKarty,kogoJestTura);
-	printf("test\n");
+	//clientList = rozlosujKarty(clientList,wszystkieKarty,kogoJestTura);
+	clientList[0]->kartyGracza.push_back(karta(typKarty(0),numerKarty(0)));
+	clientList[0]->kartyGracza.push_back(karta(typKarty(0),numerKarty(1)));
+	clientList[1]->kartyGracza.push_back(karta(typKarty(1),numerKarty(1)));
+	clientList[1]->kartyGracza.push_back(karta(typKarty(1),numerKarty(2)));
 	for(int i=0;i<clientList.size();++i)
-	{
-		std::cout<<clientList[i]->socket<<std::endl;
-		std::cout<<clientList[i]->nick<<std::endl;
-		std::cout<<clientList[i]->trybGracza<<std::endl;
 		wyslij(clientList[i],"Rozpoczynamy gre");
-	}
 	sleep(1);
-	printf("test2\n");
 	for(int i=0;i<clientList.size();++i)
 	{
 		std::string s = zamienKartyNaString(clientList[i]->kartyGracza);
@@ -59,6 +56,7 @@ int game(std::vector<struct client_t*> clientList, int iloscGraczy)
 		wyslijWszystkimStanStosu(clientList,stosKart);
 	}
 	printf("KONIEC GRY\n");
+	czyKoniecGry = true;
 }
 
 /*funkcja pomocnicza zamieniajaca typ karty podany jako liczba na string*/

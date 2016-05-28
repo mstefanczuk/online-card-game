@@ -1,13 +1,11 @@
 /**
  * Autor: Mateusz Skolimowski
  */
-#ifndef GAME_H
-#define GAME_H
+#ifndef CHAT_H
+#define CHAT_H
 
 #include <string>
 
-bool czyTenSamString(char *b, std::string b2);
-void wykonajRuch(int &sock);
-void game(int &sock);
+void chat(int &sock,bool &czyKoniecGry);
 
 #endif

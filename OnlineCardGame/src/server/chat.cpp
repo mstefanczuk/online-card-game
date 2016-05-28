@@ -19,7 +19,6 @@
 #include <pthread.h>
 #include <string>
 #include "game.h"
-//#include <boost/thread/thread.hpp>
 
 struct client_t
 {
@@ -34,7 +33,7 @@ struct client_t
 /*glowna funkcja obslugujaca chat*/
 void chat(std::vector<struct client_t*> chatList,int numer,bool &czyKoniecGry)
 {
-	while(1)
+	while(!czyKoniecGry)
 	{	
 		char b[1024];
 		bzero(b,sizeof(b));

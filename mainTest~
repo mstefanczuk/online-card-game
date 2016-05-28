@@ -1,6 +1,19 @@
 #!/bin/bash
 
-cd OnlineCardGame/src/client/
+<<<<<<< HEAD
+cd OnlineCardGame/src/server/
+
+echo 'Server'
+echo 'Czyszcze pliki'
+rm server
+make clean
+echo 'Makefile'
+make -f Makefile
+
+cd ..
+cd client
+
+echo 'Client'
 echo 'Czyszcze pliki'
 rm client
 make clean
@@ -10,8 +23,12 @@ make -f makefile
 cd ..
 cd ..
 cd ..
+=======
+OnlineCardGame/src/server/clean
+OnlineCardGame/src/client/clean
+>>>>>>> eba370774798770ce69585761d16ad48d5cc2599
 
 chmod +x mainTestServer
 chmod +x mainTestClient
 
-xterm -hold -e ./mainTestServer & xterm -hold -e ./mainTestClient jakisNick1 & xterm -hold -e ./mainTestClient jakisNick2 & xterm -hold -e ./mainTestClient jakisNick3 & xterm -hold -e ./mainTestClient jakisNick4
+xterm -hold -e ./mainTestServer & xterm -hold -e ./mainTestClient jakisNick1 & xterm -hold -e ./mainTestClient jakisNick2 & xterm -hold -e ./mainTestClient jakisNick3

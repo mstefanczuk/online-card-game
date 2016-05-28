@@ -2,5 +2,5 @@
 echo 'Czyszcze pliki'
 rm server
 make clean
-echo 'Makefile'
+echo 'Makeuje'
 make -f Makefile

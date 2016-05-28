@@ -31,15 +31,16 @@ struct client_t
 /*glowna funkcja obslugujaca gre. Rozdaje Karty miedzy graczy,
 wysyla im komunikat ze gra sie rozpoczela i w petli obsluguje ruchy
 kolejnych graczy*/
-int game(std::vector<struct client_t*> clientList, int iloscGraczy,bool &czyKoniec)
+int game(std::vector<struct client_t*> clientList, int iloscGraczy,bool &czyKoniec,std::vector<struct client_t*> chatList)
 {
 	std::vector<karta> wszystkieKarty = stworzVectorWszystkichKart();
 	int kogoJestTura;
-	//clientList = rozlosujKarty(clientList,wszystkieKarty,kogoJestTura);
+	clientList = rozlosujKarty(clientList,wszystkieKarty,kogoJestTura);
+	/*int kogoJestTura = 0;
 	clientList[0]->kartyGracza.push_back(karta(typKarty(0),numerKarty(0)));
 	clientList[0]->kartyGracza.push_back(karta(typKarty(0),numerKarty(1)));
 	clientList[1]->kartyGracza.push_back(karta(typKarty(1),numerKarty(1)));
-	clientList[1]->kartyGracza.push_back(karta(typKarty(1),numerKarty(2)));
+	clientList[1]->kartyGracza.push_back(karta(typKarty(1),numerKarty(2)));*/
 	for(int i=0;i<clientList.size();++i)
 		wyslij(clientList[i],"Rozpoczynamy gre");
 	sleep(1);
@@ -52,8 +53,12 @@ int game(std::vector<struct client_t*> clientList, int iloscGraczy,bool &czyKoni
 	std::vector<karta> stosKart;
 	while(czyKoniecGry(clientList))
 	{
-		kogoJestTura = ruchGracza(kogoJestTura,clientList,stosKart);
-		wyslijWszystkimStanStosu(clientList,stosKart);
+		kogoJestTura = ruchGracza(kogoJestTura,clientList,stosKart,chatList);
+		wyslijWszystkimStanStosu(clientList,stosKart,chatList);
+	}
+	for(int i = 0 ; i < chatList.size() ; i ++)
+	{
+		wyslij(chatList[i],"koniec gry");
 	}
 	printf("KONIEC GRY\n");
 	czyKoniec = true;
@@ -137,7 +142,7 @@ bool sprawdzCzyRuchDozwolony(struct client_t* c,int ktoraKarta,std::vector<karta
 
 /*funkcja obslugujaca wykonanie ruchu przez gracza. Pobiera od niego ktora karte chce zagrac i
 obsluguje to polecenie w zaleznosci od tego co lezy na stosie kart itp.*/
-int ruchGracza(int numerGracza , std::vector<struct client_t*> &clientList,std::vector<karta> &stosKart)
+int ruchGracza(int numerGracza , std::vector<struct client_t*> &clientList,std::vector<karta> &stosKart,std::vector<struct client_t*> chatList)
 {
 	//pokazanie graczowi jakie ma karty
 	std::string s = zamienKartyNaString(clientList[numerGracza]->kartyGracza);
@@ -169,11 +174,11 @@ int ruchGracza(int numerGracza , std::vector<struct client_t*> &clientList,std::
 		wyslij(clientList[numerGracza],"ruch dozwolony\n");
 		if(numerKartyGracza == clientList[numerGracza]->kartyGracza.size())//pobranie kart ze stosu
 		{
-			return pobierzKartyZeStosu(numerGracza,clientList,stosKart);
+			return pobierzKartyZeStosu(numerGracza,clientList,stosKart,chatList);
 		}
 		else//polozenie karty
 		{
-			return polozKarteNaStosie(numerGracza,clientList,stosKart,numerKartyGracza);
+			return polozKarteNaStosie(numerGracza,clientList,stosKart,numerKartyGracza,chatList);
 		}
 	}
 	else
@@ -184,17 +189,21 @@ int ruchGracza(int numerGracza , std::vector<struct client_t*> &clientList,std::
 	}
 }
 
-void wyslijWszystkimStanStosu(std::vector<struct client_t*> &clientList,std::vector<karta> &stosKart)
+void wyslijWszystkimStanStosu(std::vector<struct client_t*> &clientList,std::vector<karta> &stosKart,std::vector<struct client_t*> chatList)
 {
 	std::string s = zamienKartyNaString(stosKart);
 	for (int i = 0 ; i < clientList.size() ; i++)
 	{
 		wyslij(clientList[i],"stan stosu : "+s);
 	}
+	for (int i = 0 ; i < chatList.size() ; i++)
+	{
+		wyslij(chatList[i],"stan stosu : "+s);
+	}
 }
 
 /*funkcja ktora obsluguje polozenie karty na stosie*/
-int polozKarteNaStosie(int numerGracza , std::vector<struct client_t*> &clientList,std::vector<karta> &stosKart, int numerKartyGracza)
+int polozKarteNaStosie(int numerGracza , std::vector<struct client_t*> &clientList,std::vector<karta> &stosKart, int numerKartyGracza,std::vector<struct client_t*> chatList)
 {
 //std::cout<<"numer karty ktora gracz chce polozyc : "<<numerKartyGracza<<std::endl;
 //std::cout<<"na stos jest polozona karta "+clientList[numerGracza]->kartyGracza[numerKartyGracza].getNumer() + " " + clientList[numerGracza]->kartyGracza[numerKartyGracza].getTyp()<<std::endl;
@@ -211,6 +220,10 @@ int polozKarteNaStosie(int numerGracza , std::vector<struct client_t*> &clientLi
 	{
 		if(i!= numerGracza)
 			wyslij(clientList[i],std::string(numer)+stosKart[stosKart.size()-1].getNumer()+" "+stosKart[stosKart.size()-1].getTyp()+"\n");
+	}
+	for(int i = 0 ; i < chatList.size() ; i++)
+	{
+		wyslij(chatList[i],std::string(numer)+stosKart[stosKart.size()-1].getNumer()+" "+stosKart[stosKart.size()-1].getTyp()+"\n");
 	}
 	if(stosKart[stosKart.size()-1].getTyp() != "PIK")
 	{
@@ -231,7 +244,7 @@ int polozKarteNaStosie(int numerGracza , std::vector<struct client_t*> &clientLi
 }
 
 /*funkcja ktora obsluguje pobranie kart ze stosu*/
-int pobierzKartyZeStosu(int numerGracza , std::vector<struct client_t*> &clientList,std::vector<karta> &stosKart)
+int pobierzKartyZeStosu(int numerGracza , std::vector<struct client_t*> &clientList,std::vector<karta> &stosKart,std::vector<struct client_t*> chatList)
 {
 	int ileKartPobrac;
 	if(stosKart.size() > 3)
@@ -255,6 +268,13 @@ int pobierzKartyZeStosu(int numerGracza , std::vector<struct client_t*> &clientL
 	{
 		if(i!= numerGracza)
 			wyslij(clientList[i],std::string(numer)+
+clientList[numerGracza]->kartyGracza[clientList[numerGracza]->kartyGracza.size()-1].getNumer()+" "+clientList[numerGracza]->kartyGracza[clientList[numerGracza]->kartyGracza.size()-1].getTyp()+" "+
+clientList[numerGracza]->kartyGracza[clientList[numerGracza]->kartyGracza.size()-2].getNumer()+" "+clientList[numerGracza]->kartyGracza[clientList[numerGracza]->kartyGracza.size()-2].getTyp()+" "+
+clientList[numerGracza]->kartyGracza[clientList[numerGracza]->kartyGracza.size()-3].getNumer()+" "+clientList[numerGracza]->kartyGracza[clientList[numerGracza]->kartyGracza.size()-3].getTyp()+"\n");
+	}
+	for(int i = 0 ; i < chatList.size() ; i++)
+	{
+		wyslij(chatList[i],std::string(numer)+
 clientList[numerGracza]->kartyGracza[clientList[numerGracza]->kartyGracza.size()-1].getNumer()+" "+clientList[numerGracza]->kartyGracza[clientList[numerGracza]->kartyGracza.size()-1].getTyp()+" "+
 clientList[numerGracza]->kartyGracza[clientList[numerGracza]->kartyGracza.size()-2].getNumer()+" "+clientList[numerGracza]->kartyGracza[clientList[numerGracza]->kartyGracza.size()-2].getTyp()+" "+
 clientList[numerGracza]->kartyGracza[clientList[numerGracza]->kartyGracza.size()-3].getNumer()+" "+clientList[numerGracza]->kartyGracza[clientList[numerGracza]->kartyGracza.size()-3].getTyp()+"\n");

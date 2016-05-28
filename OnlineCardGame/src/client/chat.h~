@@ -6,6 +6,8 @@
 
 #include <string>
 
-void chat(int &sock,bool &czyKoniecGry);
+bool czyTenSamString(char *b, std::string b2);
+void chat(std::vector<struct client_t*> chatList,int numer,bool &czyKoniecGry);
+void chat(int &sock);
 
 #endif

@@ -50,7 +50,7 @@ void wykonajRuch(int &sock)
 	bzero(b,sizeof(b));
   	if(( recv( sock, b, sizeof( b ), 0 ) ) <= 0 )
   	{
-   	  	perror( "1Blad recv\n" );
+   	  	perror( "Blad recv\n" );
     		exit( - 1 );
   	}
   	printf("Server: %s \n", b);
@@ -75,7 +75,7 @@ void game(int &sock)
 		bzero(bufor,sizeof(bufor));
   		if(( recv( sock, bufor, sizeof( bufor ), 0 ) ) <= 0 )
   		{
-   	  	    perror( "2Blad recv\n" );
+   	  	    perror( "Blad recv\n" );
     		    exit( - 1 );
   		}
   		printf("Server: %s \n", bufor );

@@ -174,18 +174,11 @@ void listen_connections(int sock,char haslo[],int iluGraczy)
 			if(chatList.size() != 0)
 			{
 				for(int i = 0 ; i < chatList.size() ; i++)
-				{
-					std::cout<<"connection "<<chatList[i]->socket<<std::endl;
 					t[i] = std::thread(chat,chatList,i,std::ref(czyKoniecGry));
-				}
 			}
-			game(clientList,liczbaGraczy,std::ref(czyKoniecGry));
+			game(clientList,liczbaGraczy,std::ref(czyKoniecGry),chatList);
 			for(int i = 0 ; i < chatList.size() ; i++)
-			{
-				std::cout<<"connection "<<chatList[i]->socket<<std::endl;
 				t[i].join();
-				std::cout<<"watki skonczyly"<<std::endl;
-			}
 		}
             }
  	    pthread_mutex_unlock(&mutex);

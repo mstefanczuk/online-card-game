@@ -42,10 +42,12 @@ void chat(std::vector<struct client_t*> chatList,int numer,bool &czyKoniecGry)
    			perror( "Blad recv\n" );
     			exit( - 1 );
   		}
-		printf("[WIDZ %d] : %s\n",numer,b);
-		/*for(int i = 0 ; i < chatList.size() ; i++)
+		std::string s = std::string("[WIDZ") + std::to_string(numer) + std::string("] : ")+b;
+		std::cout<<s<<std::endl;
+		for(int i = 0 ; i < chatList.size() ; i++)
 		{
-			printf("[w%d]chatlist[%d].sock = %d\n",numer,i,chatList[i]->socket);
-		}*/
+			if(i != numer)
+				write(chatList[i]->socket,s.c_str(),s.length());
+		}
 	}
 }

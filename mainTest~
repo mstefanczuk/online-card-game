@@ -26,4 +26,10 @@ cd ..
 chmod +x mainTestServer
 chmod +x mainTestClient
 
+#dla mainTestClient:
+#1. parametr - czas w sekundach po jakim odpali sie program
+#2. parametr - nick gracza
+#3. parametr - haslo
+#4. parametr - tryb
+
 xterm -hold -e ./mainTestServer & xterm -hold -e ./mainTestClient 2 jakisNick1 jakiesHaslo 1 & xterm -hold -e ./mainTestClient 4 jakisNick2 jakiesHaslo 1

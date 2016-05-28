@@ -17,17 +17,37 @@
 #include <cstring>
 #include <string>
 #include <iostream>
+#include <thread>
+
+void odbieranieWiadomosciOdInnychGraczy(int sock, bool &czyKoniecGry)
+{
+	char bufor[1024];
+	while(!czyKoniecGry)
+  	{
+		bzero(bufor,sizeof(bufor));
+  		if(( recv( sock, bufor, sizeof( bufor ), 0 ) ) <= 0 )
+  		{
+   	  	    perror( "Blad recv\n" );
+    		    exit( - 1 );
+  		}
+  		printf("Server: %s \n", bufor );
+		if (czyTenSamString(bufor,"koniec gry"))
+		{
+			printf("TESTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
+			czyKoniecGry = true;
+		}
+	}
+}
 
 
 void chat(int &sock)
 {
 	std::string s;
-	std::getline(std::cin,s);
-	while(1)
+	bool czyKoniecGry = false;
+	std::thread t(odbieranieWiadomosciOdInnychGraczy,sock,std::ref(czyKoniecGry));
+	while(!czyKoniecGry)
 	{	
-		printf("co chcesz napisac do innych?\n");
 		std::getline(std::cin,s);
-		std::cout<<"wczytany string : "<<s<<std::endl;
 		write(sock,s.c_str(),s.length());
 	}
 }

@@ -39,7 +39,7 @@ void wykonajRuch(int &sock)
 {
 	printf("Twoja kolej aby wykonac ruch\n");
 	int ktoraKarteZagrac;
-	getchar();
+	//getchar();
 	printf("jaka karte chcesz zagrac?\n");
 	scanf("%d",&ktoraKarteZagrac);
 	printf("karta ktora sie wpisalo : %d\n",ktoraKarteZagrac);

@@ -33,13 +33,13 @@ struct client_t
 /*glowna funkcja obslugujaca chat*/
 void chat(std::vector<struct client_t*> chatList,int numer,bool &czyKoniecGry)
 {
-	while(1)
+	while(!czyKoniecGry)
 	{	
 		char b[1024];
 		bzero(b,sizeof(b));
 		if(( recv( chatList[numer]->socket, b, sizeof( b ), 0 ) ) <= 0 )
   		{
-   			perror( "Blad recv\n" );
+   			perror( "CZAT Blad recv\n" );
     			exit( - 1 );
   		}
 		printf("[WIDZ %d] : %s\n",numer,b);

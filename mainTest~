@@ -1,6 +1,5 @@
 #!/bin/bash
 
-<<<<<<< HEAD
 cd OnlineCardGame/src/server/
 
 echo 'Server'
@@ -23,12 +22,8 @@ make -f makefile
 cd ..
 cd ..
 cd ..
-=======
-OnlineCardGame/src/server/clean
-OnlineCardGame/src/client/clean
->>>>>>> eba370774798770ce69585761d16ad48d5cc2599
 
 chmod +x mainTestServer
 chmod +x mainTestClient
 
-xterm -hold -e ./mainTestServer & xterm -hold -e ./mainTestClient jakisNick1 & xterm -hold -e ./mainTestClient jakisNick2 & xterm -hold -e ./mainTestClient jakisNick3
+xterm -hold -e ./mainTestServer & xterm -hold -e ./mainTestClient 2 jakisNick1 jakiesHaslo 1 & xterm -hold -e ./mainTestClient 4 jakisNick2 jakiesHaslo 1

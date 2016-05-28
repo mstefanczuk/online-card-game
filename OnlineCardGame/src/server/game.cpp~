@@ -31,7 +31,7 @@ struct client_t
 /*glowna funkcja obslugujaca gre. Rozdaje Karty miedzy graczy,
 wysyla im komunikat ze gra sie rozpoczela i w petli obsluguje ruchy
 kolejnych graczy*/
-int game(std::vector<struct client_t*> clientList, int iloscGraczy,bool &czyKoniecGry)
+int game(std::vector<struct client_t*> clientList, int iloscGraczy,bool &czyKoniec)
 {
 	std::vector<karta> wszystkieKarty = stworzVectorWszystkichKart();
 	int kogoJestTura;
@@ -56,7 +56,7 @@ int game(std::vector<struct client_t*> clientList, int iloscGraczy,bool &czyKoni
 		wyslijWszystkimStanStosu(clientList,stosKart);
 	}
 	printf("KONIEC GRY\n");
-	czyKoniecGry = true;
+	czyKoniec = true;
 }
 
 /*funkcja pomocnicza zamieniajaca typ karty podany jako liczba na string*/
@@ -149,7 +149,7 @@ int ruchGracza(int numerGracza , std::vector<struct client_t*> &clientList,std::
 	bzero(b,sizeof(b));
 	if(( recv( clientList[numerGracza]->socket, b, sizeof( b ), 0 ) ) <= 0 )
   	{
-   		perror( "Blad recv\n" );
+   		perror( "GAME Blad recv\n" );
     		exit( - 1 );
   	}
 	printf("klient %d : %s\n",numerGracza,b);

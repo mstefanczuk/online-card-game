@@ -1,7 +1,3 @@
 #!/bin/bash
 
-(
-echo "jakiesHaslo"
-sleep 1
-echo "2"
-) | OnlineCardGame/src/server/server
+OnlineCardGame/src/server/server

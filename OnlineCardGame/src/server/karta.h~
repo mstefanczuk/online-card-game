@@ -8,8 +8,6 @@
 
 #include <iostream>
 
-//enum typKarty {PIK = 0,TREFL = 1, KARO = 2, KIER = 3};
-//enum numerKarty {DZIEWIATKA = 0, DZIESIATKA = 1, WALET = 2, DAMA = 3, KROL = 4, AS = 5};
 class karta
 {
 	private:

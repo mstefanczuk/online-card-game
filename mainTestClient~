@@ -1,0 +1,15 @@
+#!/bin/bash
+
+sleep 2
+
+<<<<<<< HEAD
+OnlineCardGame/src/client/client 127.0.0.1 8888
+=======
+(
+echo $1
+sleep 1
+echo "jakiesHaslo"
+sleep 1
+echo "1"
+) | OnlineCardGame/src/client/client 127.0.0.1 8888
+>>>>>>> 29e59eaed4f9e98a92e9d6f14f95fc40f88308f2

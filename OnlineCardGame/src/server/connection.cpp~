@@ -17,7 +17,10 @@
 #include "spechandler.h"
 #include "loger.h"
 #include "game.h"
+#include "chat.h"
 #include "karta.h"
+#include <thread>
+
 int MAX_CLIENTS=20;
 struct client_t
 {
@@ -61,6 +64,11 @@ int create_connection()
 
 }
 
+struct test
+{
+	std::vector<struct client_t*> chatList;
+};
+
 /**
  * Funkcja nasłuchująca i dla każdego klienta włączająca odzielny wątek do obsługi
  */
@@ -72,6 +80,7 @@ void listen_connections(int sock,char haslo[],int iluGraczy)
     listen(sock, MAX_CLIENTS);
     pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
     std::vector<struct client_t*> clientList;
+    std::vector<struct client_t*> chatList;
     do 
     {
         char trybGracza[2];
@@ -147,19 +156,36 @@ void listen_connections(int sock,char haslo[],int iluGraczy)
         	     exit( - 1 );
         	}
         	printf("Tryb gracza %s: %s\n",new_client->nick,trybGracza);
-                if(trybGracza[0]=='1' && clientList.size()<4)
+                if(trybGracza[0]=='1' && clientList.size()<iluGraczy)
 	        {
                    new_client->trybGracza=1;
                    liczbaGraczy+=1;
+		   clientList.push_back(new_client);
                 }
                 else 
 	        {
                    new_client->trybGracza=2;
+		   chatList.push_back(new_client);
                 }
-                clientList.push_back(new_client);
                 if(liczbaGraczy==iluGraczy)
-		{
-			game(clientList,liczbaGraczy);
+		{			
+			bool czyKoniecGry = false;
+			std::thread t[chatList.size()];
+			if(chatList.size() != 0)
+			{
+				for(int i = 0 ; i < chatList.size() ; i++)
+				{
+					std::cout<<"connection "<<chatList[i]->socket<<std::endl;
+					t[i] = std::thread(chat,chatList,i,std::ref(czyKoniecGry));
+				}
+			}
+			game(clientList,liczbaGraczyy,std::ref(czyKoniecGry));
+			for(int i = 0 ; i < chatList.size() ; i++)
+			{
+				std::cout<<"connection "<<chatList[i]->socket<<std::endl;
+				t[i].join();
+				std::cout<<"watki skonczyly"<<std::endl;
+			}
 		}
             }
  	    pthread_mutex_unlock(&mutex);

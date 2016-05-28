@@ -1,0 +1,6 @@
+#!/bin/bash
+
+sleep 2
+
+OnlineCardGame/src/client/client 127.0.0.1 8888
+

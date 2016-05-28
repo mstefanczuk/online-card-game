@@ -15,21 +15,81 @@
 #include <time.h>
 #include "game.h"
 #include <cstring>
+#include <string>
 
+/*funkcja pomocnicza porownujaca stringi. Nie skorzystalem ze standardowych poniewaz
+mialem problem z wersja kompilatora jakiego uzywamy*/
+bool czyTenSamString(char *b, std::string b2)
+{
+	int size;
+	if(sizeof(b) <= b2.length())
+		size = sizeof(b);
+	else
+		size = b2.length();
+	for(int  i = 0 ; i < size ; i++)
+	{
+		if(b[i] != b2[i])
+			return false;
+	}
+	return true;
+}
+
+/*funkcja ktora obsluguje wykonanie ruchu przez gracza*/
+void wykonajRuch(int &sock)
+{
+	printf("Twoja kolej aby wykonac ruch\n");
+	int ktoraKarteZagrac;
+	getchar();
+	printf("jaka karte chcesz zagrac?\n");
+	scanf("%d",&ktoraKarteZagrac);
+	char buf[16];
+	sprintf(buf,"zagrywam karte %d",ktoraKarteZagrac);
+	write(sock,buf,17);
+	char b[1024];
+	bzero(b,sizeof(b));
+  	if(( recv( sock, b, sizeof( b ), 0 ) ) <= 0 )
+  	{
+   	  	perror( "Blad recv\n" );
+    		exit( - 1 );
+  	}
+  	printf("Server: %s \n", b);
+	if(czyTenSamString(b,"ruch nie dozwolony"))
+	{
+		printf("wykonales niedozwolony ruch, sprobuj ponownie\n");
+		wykonajRuch(sock);
+	}
+	else
+	{
+		printf("wykonales poprawny ruch. Kolejka idzie dalej\n");
+	}
+}
+
+/*funkcja obslugujaca gre po stronie klienta. w petli ciagle odbiera komunikaty i w zaleznosci
+od tego co dostanie wywoluje funkcje obslugujace dana sytuacje*/
 void game(int &sock)
 {
 	char bufor[1024];
 	while(1)
   	{
+		bzero(bufor,sizeof(bufor));
   		if(( recv( sock, bufor, sizeof( bufor ), 0 ) ) <= 0 )
   		{
    	  	    perror( "Blad recv\n" );
     		    exit( - 1 );
   		}
-  		printf( "Server: %s ", bufor );
-		if (strcmp(bufor,"test"))
+  		printf("Server: %s \n", bufor );
+		if (czyTenSamString(bufor,"wykonaj ruch"))
 		{
-			printf("TESTUJE WYSYLANIE STRINGA");
+			wykonajRuch(sock);
+		}
+		else if (czyTenSamString(bufor,"ruch nie dozwolony"))
+		{
+			printf("Ruch ktory chcesz wykonac jest niepoprawny. Wykonaj inny\n");
+		}
+		else if (czyTenSamString(bufor,"inny gracz wykonal ruch"))
+		{
+			printf("Gracz wykonal ruch\n");//dodac jaki to gracz
+			//pokazac karty na stole
 		}
   	}
 }

@@ -11,6 +11,7 @@
 #include <unistd.h>
 #include "connectionn.h"
 #include "game.h"
+#include "chat.h"
 /*
   Funkcja do tworzenia połączeń, przypisuje adres lokalny gniazdu.
 */
@@ -148,7 +149,10 @@ void create_connection(int argc, char** argv, int& sock,char nick[])
   if(trybGracza[0]!='1' && trybGracza[0]!='2')
         strcpy( trybGracza,"2" );
   write(sock,trybGracza,2);
-  game(sock);//funkcja ktora obsluguje gre po stronie gracza
+  if(trybGracza[0] == '1')
+  	game(sock);//funkcja ktora obsluguje gre po stronie gracza
+  else
+	chat(sock);
   sleep(5);
 }
 

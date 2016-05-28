@@ -18,6 +18,7 @@ class karta
 	bool porownajKarty(karta k);
 	std::string getTyp();
 	std::string getNumer();
+	int sprawdzWartosc(std::string s);
 };
 
 #endif

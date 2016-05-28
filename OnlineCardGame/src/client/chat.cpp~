@@ -24,6 +24,6 @@ void chat(int &sock)
 	printf("co chcesz napisac do innych?\n");
 	scanf("%s",buf);
     	getchar();
-	write(sock,buf,sizeof(buf));
+	//write(sock,buf,sizeof(buf));
 }
 

@@ -32,10 +32,21 @@ struct client_t
 
 
 /*glowna funkcja obslugujaca chat*/
-void chat(std::vector<struct client_t*> chatList,int numer)
+void chat(std::vector<struct client_t*> chatList,int numer,bool &czyKoniecGry)
 {
-	for(int i = 0 ; i < chatList.size() ; i++)
-	{
-		printf("[w%d]chatlist[%d].sock = %d\n",numer,i,chatList[i]->socket);
+	while(1)
+	{	
+		char b[1024];
+		bzero(b,sizeof(b));
+		if(( recv( chatList[numer]->socket, b, sizeof( b ), 0 ) ) <= 0 )
+  		{
+   			perror( "Blad recv\n" );
+    			exit( - 1 );
+  		}
+		printf("[WIDZ %d] : %s\n",numer,b);
+		/*for(int i = 0 ; i < chatList.size() ; i++)
+		{
+			printf("[w%d]chatlist[%d].sock = %d\n",numer,i,chatList[i]->socket);
+		}*/
 	}
 }

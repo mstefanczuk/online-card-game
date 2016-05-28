@@ -169,21 +169,22 @@ void listen_connections(int sock,char haslo[],int iluGraczy)
                 }
                 if(liczbaGraczy==iluGraczy)
 		{			
+			bool czyKoniecGry = false;
+			std::thread t[chatList.size()];
 			if(chatList.size() != 0)
 			{
-				std::thread t[chatList.size()];
 				for(int i = 0 ; i < chatList.size() ; i++)
 				{
 					std::cout<<"connection "<<chatList[i]->socket<<std::endl;
-					t[i] = std::thread(chat,chatList);
-				}
-				for(int i = 0 ; i < chatList.size() ; i++)
-				{
-					std::cout<<"connection "<<chatList[i]->socket<<std::endl;
-					t[i].join();
+					t[i] = std::thread(chat,chatList,i);
 				}
 			}
 			game(clientList,liczbaGraczy);
+			for(int i = 0 ; i < chatList.size() ; i++)
+			{
+				std::cout<<"connection "<<chatList[i]->socket<<std::endl;
+				t[i].join();
+			}
 		}
             }
  	    pthread_mutex_unlock(&mutex);

@@ -3,4 +3,4 @@
 chmod +x mainTestServer
 chmod +x mainTestClient
 
-xterm -hold -e ./mainTestServer & xterm -hold -e ./mainTestClient jakisNick1 & xterm -hold -e ./mainTestClient jakisNick2
+xterm -hold -e ./mainTestServer & xterm -hold -e ./mainTestClient jakisNick1 & xterm -hold -e ./mainTestClient jakisNick2 & xterm -hold -e ./mainTestClient jakisNick3 & xterm -hold -e ./mainTestClient jakisNick4

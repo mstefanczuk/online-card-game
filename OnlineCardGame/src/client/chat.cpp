@@ -20,10 +20,14 @@
 
 void chat(int &sock)
 {
-	char buf[200];
-	printf("co chcesz napisac do innych?\n");
-	scanf("%s",buf);
-    	getchar();
-	//write(sock,buf,sizeof(buf));
+	while(1)
+	{	
+		char buf[200];
+		printf("co chcesz napisac do innych?\n");
+		scanf("%s",buf);
+    		getchar();
+		write(sock,buf,sizeof(buf));
+		bzero(buf,sizeof(buf));
+	}
 }
 

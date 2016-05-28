@@ -42,6 +42,7 @@ void wykonajRuch(int &sock)
 	getchar();
 	printf("jaka karte chcesz zagrac?\n");
 	scanf("%d",&ktoraKarteZagrac);
+	printf("karta ktora sie wpisalo : %d\n",ktoraKarteZagrac);
 	char buf[16];
 	sprintf(buf,"zagrywam karte %d",ktoraKarteZagrac);
 	write(sock,buf,17);

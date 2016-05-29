@@ -13,9 +13,6 @@
 #include <string.h>
 #include <vector>
 #include "connection.h"
-#include "playerhandler.h"
-#include "spechandler.h"
-#include "loger.h"
 #include "game.h"
 #include "chat.h"
 #include "karta.h"

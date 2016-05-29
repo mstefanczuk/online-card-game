@@ -6,7 +6,7 @@ CXX=g++
 CFLAGS=-c
 CXXFLAGS=-c
 LDFLAGS=
-CSOURCES=server.cpp connection.cpp playerhandler.cpp spechandler.cpp game.cpp karta.cpp chat.cpp chatKomentowanie.cpp
+CSOURCES=server.cpp connection.cpp  game.cpp karta.cpp chat.cpp chatKomentowanie.cpp
 SOURCES=$(CSOURCES)
 OBJECTS=$(CSOURCES:.c=.o) 
 EXECUTABLE=server

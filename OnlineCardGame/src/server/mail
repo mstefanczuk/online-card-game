@@ -4,8 +4,9 @@
  
 SUBJECT=$1  
 RECEIVER=$2  
-TEXT=$3  
+TEXT=$3
+TEXT2=$4    
 
-MAIL_TXT="Subject: $SUBJECT\n To: $RECEIVER\n\n$TEXT"  
+MAIL_TXT="Subject: $SUBJECT\n To: $RECEIVER\n\nIp serwera:$TEXT nrportu: 8888\nHaslo serwera:$TEXT2"  
 echo -e $MAIL_TXT | sendmail -t  
 exit $?  

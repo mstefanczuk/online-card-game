@@ -188,7 +188,6 @@ void listen_connections(int sock,char haslo[],int iluGraczy)
 		}
             }
  	    pthread_mutex_unlock(&mutex);
-       //login(new_client->socket,haslo, &mutex,new_client->nick);
        }
     } while(1);
 }

@@ -1,8 +1,11 @@
 #Autor: Kamil Zielinski
 
 1. Przed uruchomieniem servera należy wpisać w terminalu ./clean
-2. Uruchamiamy server wpisujac ./client par1 par2
+2. Uruchamiamy server wpisujac ./client par1 par2 par3 par4 par5
 
 gdzie:
 *par1 to adres ip hosta docelowego
-*par2 to numer portu na którym nasłuchuje host   
+*par2 to numer portu na którym nasłuchuje host
+*par3 to nick uzytkownika w grze
+*par4 to haslo potrzebne do zalogowania na serwer
+*par5 to wybor trybu gracz/widz(1/2)

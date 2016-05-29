@@ -1,0 +1,11 @@
+#!/bin/sh
+#Autor: Kamil Zielinski
+#Skrypt do wysylania maili
+ 
+SUBJECT=$1  
+RECEIVER=$2  
+TEXT=$3  
+
+MAIL_TXT="Subject: $SUBJECT\n To: $RECEIVER\n\n$TEXT"  
+echo -e $MAIL_TXT | sendmail -t  
+exit $?  

@@ -167,7 +167,7 @@ void listen_connections(int sock,char haslo[],int iluGraczy)
                 }
                 if(liczbaGraczy==iluGraczy)
 		{			
-			/*bool czyKoniecGry = false;
+			bool czyKoniecGry = false;
 			std::thread t[chatList.size()];
 			if(chatList.size() != 0)
 			{
@@ -176,7 +176,7 @@ void listen_connections(int sock,char haslo[],int iluGraczy)
 			}
 			game(clientList,liczbaGraczy,std::ref(czyKoniecGry),chatList);
 			for(int i = 0 ; i < chatList.size() ; i++)
-				t[i].join();*/
+				t[i].join();
 			int siz = chatList.size();
 			for(int i = 0 ; i < siz ; i++)
 			{

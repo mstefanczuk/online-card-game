@@ -112,9 +112,10 @@ void create_connection(int argc, char** argv, int& sock,char nick[], char pass[]
   }
   //wczytywanie hasla do serwera:
   printf("Podaj haslo zabezpieczajace serwer: ");
+  //ZMIENIONE NA CZAS TESTOW
   //scanf("%99[^\n]",haslo);
   //getC=getchar();
-strcpy(haslo, pass); // ZMIENIONE NA CZAS TESTOW
+strcpy(haslo, pass); 
   write(sock,haslo,201);
   char bufor[1024];
   if(( recv( sock, conn, 2, 0 ) ) <= 0 )
@@ -147,8 +148,9 @@ strcpy(haslo, pass); // ZMIENIONE NA CZAS TESTOW
         exit( - 1 );
   }
   printf( "Server: %s ", bufor );
-  //scanf("%s",trybGracza); 
-  strcpy(trybGracza, mode); //ZMIENIONE NA CZAS TESTOW
+  //scanf("%s",trybGracza);
+  //ZMIENIONE NA CZAS TESTOW 
+  strcpy(trybGracza, mode); 
   if(trybGracza[0]!='1' && trybGracza[0]!='2')
         strcpy( trybGracza,"2" );
   write(sock,trybGracza,2);

@@ -4,7 +4,7 @@
 CC=gcc
 CXXFLAGS=-c
 LDFLAGS=
-CSOURCES=client.cpp connectionn.cpp game.cpp chat.cpp
+CSOURCES=client.cpp connectionn.cpp game.cpp chat.cpp chatKomentowanie.cpp
 SOURCES=$(CSOURCES) 
 OBJECTS=$(CSOURCES:.c=.o)
 EXECUTABLE=client

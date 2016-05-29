@@ -22,9 +22,6 @@ mialem problem z wersja kompilatora jakiego uzywamy*/
 bool czyTenSamString(char *b, std::string b2)
 {
 	int size;
-	printf("b = ");
-	for(int i = 0 ; i < sizeof(b) ; i ++)
-		printf("%c",b[i]);
 	if(sizeof(b) <= b2.length())
 		size = sizeof(b);
 	else
@@ -90,10 +87,9 @@ void game(int &sock)
 		{
 			printf("Ruch ktory chcesz wykonac jest niepoprawny. Wykonaj inny\n");
 		}
-		else if (czyTenSamString(bufor,"inny gracz wykonal ruch"))
+		else if (czyTenSamString(bufor,"koniec gry"))
 		{
-			printf("Gracz wykonal ruch\n");//dodac jaki to gracz
-			//pokazac karty na stole
+
 		}
   	}
 }

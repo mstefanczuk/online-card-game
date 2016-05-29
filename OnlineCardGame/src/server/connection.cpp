@@ -19,6 +19,7 @@
 #include "game.h"
 #include "chat.h"
 #include "karta.h"
+#include "chatKomentowanie.h"
 #include <thread>
 
 int MAX_CLIENTS=20;
@@ -179,6 +180,13 @@ void listen_connections(int sock,char haslo[],int iluGraczy)
 			game(clientList,liczbaGraczy,std::ref(czyKoniecGry),chatList);
 			for(int i = 0 ; i < chatList.size() ; i++)
 				t[i].join();
+			int siz = chatList.size();
+			for(int i = 0 ; i < siz ; i++)
+			{
+				clientList.push_back(chatList[chatList.size()-1]);
+				chatList.pop_back();
+			}
+			czatKomentowanieHistorycznych(clientList);
 		}
             }
  	    pthread_mutex_unlock(&mutex);

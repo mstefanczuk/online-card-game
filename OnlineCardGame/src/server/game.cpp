@@ -61,6 +61,11 @@ int game(std::vector<struct client_t*> clientList, int iloscGraczy,bool &czyKoni
 	{
 		wyslij(chatList[i],"koniec gry");
 	}
+	sleep(1);
+	for(int i = 0 ; i < clientList.size() ; i ++)
+	{
+		wyslij(clientList[i],"koniec gry");
+	}
 	printf("KONIEC GRY\n");
 	czyKoniec = true;
 }
@@ -110,11 +115,13 @@ void wyslij(struct client_t* c,std::string wiadomosc)
 jeden gracz z kartami*/
 bool czyKoniecGry(std::vector<struct client_t*> clientList)
 {
-	if(clientList.size() == 1)
+	int suma = 0;
+	for (int i = 0 ; i < clientList.size() ; i++)
 	{
-		return false;
+		if(clientList[i]->kartyGracza.size() > 0)
+			suma++;
 	}
-	return true;
+	return suma>=2;
 }
 
 /*funkcja sprawdzajaca czy ruch ktory chce wykonac gracz jest dozwolony.
@@ -213,7 +220,7 @@ int polozKarteNaStosie(int numerGracza , std::vector<struct client_t*> &clientLi
 	if(clientList[numerGracza]->kartyGracza.size() == 0)
 	{
 		printf("gracz %d skonczyl gre\n",numerGracza);
-		clientList.erase(clientList.begin()+numerGracza);
+		//clientList.erase(clientList.begin()+numerGracza);
 	}
 	char numer[24];
 	sprintf(numer,"gracz %d polozyl karte : ",numerGracza);
@@ -229,18 +236,42 @@ int polozKarteNaStosie(int numerGracza , std::vector<struct client_t*> &clientLi
 	if(stosKart[stosKart.size()-1].getTyp() != "PIK")
 	{
 		//printf("kolejka idzie dalej\n");
-		if (numerGracza < clientList.size()-1)
-			return numerGracza+1;
-		else
-			return 0;
+		int i = numerGracza;
+		while(1)
+		{
+			if(i < clientList.size()-1)
+			{
+				if(clientList[i+1]->kartyGracza.size() > 0)
+					return i+1;
+			}
+			else
+			{
+				if(clientList[0]->kartyGracza.size() > 0)
+					return 0;
+				i = 0;
+			} 
+			i++;
+		}
 	}
 	else
 	{
 		//printf("polozony PIK wiec cofam\n");
-		if (numerGracza != 0)
-			return numerGracza-1;
-		else
-			return clientList.size()-1;
+		int i = numerGracza;
+		while(1)
+		{
+			if(i != 0)
+			{
+				if(clientList[i-1]->kartyGracza.size() > 0)
+					return i-1;	
+			}
+			else
+			{
+				if(clientList[clientList.size()-1]->kartyGracza.size() > 0)
+					return clientList.size()-1;
+				i = clientList.size()-1;	
+			}
+			i--;
+		}
 	}
 }
 

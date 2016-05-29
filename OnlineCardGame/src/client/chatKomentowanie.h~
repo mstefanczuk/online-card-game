@@ -1,0 +1,12 @@
+/**
+ * Autor: Mateusz Skolimowski
+ */
+#ifndef CHATKOMENTOWANIE_H
+#define CHATKOMENTOWANIE_H
+
+#include <string>
+
+void wybor();
+void czatKomentowanieHistorycznych(int &sock);
+
+#endif

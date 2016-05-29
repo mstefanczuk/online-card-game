@@ -11,6 +11,7 @@
 #include <unistd.h>
 #include "connectionn.h"
 #include "game.h"
+#include "chatKomentowanie.h"
 #include "chat.h"
 /*
   Funkcja do tworzenia połączeń, przypisuje adres lokalny gniazdu.
@@ -154,7 +155,8 @@ strcpy(haslo, pass); // ZMIENIONE NA CZAS TESTOW
   if(trybGracza[0] == '1')
   	game(sock);//funkcja ktora obsluguje gre po stronie gracza
   else
-	chat(sock);
+  	chat(sock);
+  czatKomentowanieHistorycznych(sock);
   sleep(5);
 }
 

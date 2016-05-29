@@ -87,10 +87,9 @@ void game(int &sock)
 		{
 			printf("Ruch ktory chcesz wykonac jest niepoprawny. Wykonaj inny\n");
 		}
-		else if (czyTenSamString(bufor,"inny gracz wykonal ruch"))
+		else if (czyTenSamString(bufor,"koniec gry"))
 		{
-			printf("Gracz wykonal ruch\n");//dodac jaki to gracz
-			//pokazac karty na stole
+			break;
 		}
   	}
 }

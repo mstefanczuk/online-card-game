@@ -32,4 +32,4 @@ chmod +x mainTestClient
 #3. parametr - haslo
 #4. parametr - tryb
 
-xterm -hold -e ./mainTestServer & xterm -hold -e ./mainTestClient 2 jakisNick1 jakiesHaslo 1 & xterm -hold -e ./mainTestClient 4 jakisNick2 jakiesHaslo 1
+xterm -hold -e ./mainTestServer & xterm -hold -e ./mainTestClient 2 jakisNick1 jakiesHaslo 1 & xterm -hold -e ./mainTestClient 3 jakisNick2 jakiesHaslo 2 & xterm -hold -e ./mainTestClient 5 jakisNick3 jakiesHaslo 2 & xterm -hold -e ./mainTestClient 4 jakisNick4 jakiesHaslo 1

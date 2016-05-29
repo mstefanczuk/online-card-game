@@ -4,7 +4,7 @@
 CC=gcc
 CXXFLAGS=-c
 LDFLAGS=
-CSOURCES=client.cpp connectionn.cpp game.cpp chat.cpp
+CSOURCES=client.cpp connectionn.cpp game.cpp chat.cpp chatKomentowanie.cpp
 SOURCES=$(CSOURCES) 
 OBJECTS=$(CSOURCES:.c=.o)
 EXECUTABLE=client
@@ -12,7 +12,7 @@ EXECUTABLE=client
 all: $(SOURCES) $(EXECUTABLE)
 
 $(EXECUTABLE): $(OBJECTS)
-	$(CXX) $(LDFLAGS) $(OBJECTS) -std=c++11 -pthread -o $@ $(LIBS)
+	$(CXX) $(LDFLAGS) $(OBJECTS) -WI,--no-as-needed -pthread -std=c++11 -o $@ $(LIBS)
 
 .cpp.o:
 	$(CXX) $(CXXFLAGS) $< -o $@

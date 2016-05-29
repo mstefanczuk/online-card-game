@@ -89,6 +89,7 @@ void game(int &sock)
 		}
 		else if (czyTenSamString(bufor,"koniec gry"))
 		{
+			getchar();
 			break;
 		}
   	}

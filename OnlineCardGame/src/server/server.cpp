@@ -8,33 +8,8 @@
 #include "connection.h"
 #include <thread>
 
-/*void test(int x)
-{
-	while(1)
-	{
-		printf("test1 : %d\n",x);
-		sleep(3);
-	}
-}
-
-void test2(int &x)
-{
-	while(1)
-	{
-		printf("test2 : %d\n",x);
-		sleep(2);
-	}
-}*/
-
 int main(int argc, char **argv)
 {
-	/*int x = 5;
-	std::thread t(test,x);
-	std::thread t2(test2,std::ref(x));
-	sleep(1);
-	x = 2;
-	t.join();
-	t2.join();*/
     int socket, http_socket;
     int getC;
     int iluGraczy;

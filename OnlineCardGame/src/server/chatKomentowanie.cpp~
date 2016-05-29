@@ -30,7 +30,7 @@ struct client_t
     std::vector<karta> kartyGracza;
 };
 
-void chat(struct client_t* client,std::vector<struct client_t*> &chatList)
+void chatowanie(struct client_t* client,std::vector<struct client_t*> &chatList)
 {
 	chatList.push_back(client);
 	bool czyCzatuje = true;
@@ -86,7 +86,7 @@ void obslugaPojedynczego(std::vector<struct client_t*> &clientList,struct client
 		printf("klient : %s\n",bufor);
 		if(std::string("1").compare(bufor) == 0)//chce czatowac
 		{
-			chat(client,chatList);
+			chatowanie(client,chatList);
 			sleep(1);
 			write(client->socket,"wybor",5);
 		}
@@ -113,12 +113,14 @@ void obslugaPojedynczego(std::vector<struct client_t*> &clientList,struct client
 void czatKomentowanieHistorycznych(std::vector<struct client_t*> clientList)
 {
 	std::thread t[clientList.size()];
+	printf("clientList.size() = %d\n",clientList.size());
+	int siz = clientList.size();
 	std::vector<struct client_t*> chatList;
 	for(int i = 0 ; i < clientList.size() ; i++)
 	{
 		t[i] = std::thread(obslugaPojedynczego,std::ref(clientList),clientList[i],std::ref(chatList));
 	}
-	for(int i = 0 ; i < clientList.size() ; i++)
+	for(int i = 0 ; i < siz ; i++)
 	{
 		t[i].join();
 		printf("watek zjoinowal\n");

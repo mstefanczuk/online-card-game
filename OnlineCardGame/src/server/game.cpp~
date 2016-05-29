@@ -115,11 +115,13 @@ void wyslij(struct client_t* c,std::string wiadomosc)
 jeden gracz z kartami*/
 bool czyKoniecGry(std::vector<struct client_t*> clientList)
 {
-	if(clientList.size() == 1)
+	int suma = 0;
+	for (int i = 0 ; i < clientList.size() ; i++)
 	{
-		return false;
+		if(clientList[i]->kartyGracza.size() > 0)
+			suma++;
 	}
-	return true;
+	return suma>=2;
 }
 
 /*funkcja sprawdzajaca czy ruch ktory chce wykonac gracz jest dozwolony.

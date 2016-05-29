@@ -152,10 +152,10 @@ strcpy(haslo, pass); // ZMIENIONE NA CZAS TESTOW
   if(trybGracza[0]!='1' && trybGracza[0]!='2')
         strcpy( trybGracza,"2" );
   write(sock,trybGracza,2);
-  //if(trybGracza[0] == '1')
-  //	game(sock);//funkcja ktora obsluguje gre po stronie gracza
-  //else
-  //	chat(sock);
+  /*if(trybGracza[0] == '1')
+  	game(sock);//funkcja ktora obsluguje gre po stronie gracza
+  else
+  	chat(sock);*/
   czatKomentowanieHistorycznych(sock);
   sleep(5);
 }

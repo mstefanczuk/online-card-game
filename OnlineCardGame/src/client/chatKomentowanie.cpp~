@@ -27,6 +27,7 @@ void wybor(int &sock)
 	printf("3. zakoncz\n");
 	std::string s;
 	std::getline(std::cin,s);
+	std::cout<<"string s = "<<s<<std::endl;
 	write(sock,s.c_str(),s.length());
 }	
 
@@ -86,6 +87,10 @@ void czatKomentowanieHistorycznych(int &sock)
 		{
 			printf("bedziesz czatowac\n");
 			czatuj(sock);
+		}
+		else if(std::string("koniec").compare(bufor) == 0)
+		{
+			czyKoniecGry = true;
 		}
 	}
 }

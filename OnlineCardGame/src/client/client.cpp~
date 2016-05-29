@@ -38,14 +38,14 @@ char mode[2];
   //scanf("%50[^\n]",client->nick);
   //getchar();
 
-strcpy(client->nick, argv[3]);
-strcpy(pass, argv[4]);
-strcpy(mode, argv[5]);
+  strcpy(client->nick, argv[3]);
+  strcpy(pass, argv[4]);
+  strcpy(mode, argv[5]);
 
   pthread_t client_thread;
   //polaczenie z serwerem
   //create_connection(argc, argv, client->sock,client->nick);
   create_connection(argc, argv, client->sock,client->nick, pass, mode);
-  close(client->sock);
+  //close(client->sock);
   return 0;
 }

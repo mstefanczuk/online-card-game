@@ -113,12 +113,13 @@ void obslugaPojedynczego(std::vector<struct client_t*> &clientList,struct client
 void czatKomentowanieHistorycznych(std::vector<struct client_t*> clientList)
 {
 	std::thread t[clientList.size()];
+	int siz = clientList.size();
 	std::vector<struct client_t*> chatList;
 	for(int i = 0 ; i < clientList.size() ; i++)
 	{
 		t[i] = std::thread(obslugaPojedynczego,std::ref(clientList),clientList[i],std::ref(chatList));
 	}
-	for(int i = 0 ; i < clientList.size() ; i++)
+	for(int i = 0 ; i < siz ; i++)
 	{
 		t[i].join();
 		printf("watek zjoinowal\n");

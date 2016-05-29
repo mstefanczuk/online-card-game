@@ -184,6 +184,7 @@ void listen_connections(int sock,char haslo[],int iluGraczy)
 				chatList.pop_back();
 			}
 			czatKomentowanieHistorycznych(clientList);
+			break;
 		}
             }
  	    pthread_mutex_unlock(&mutex);

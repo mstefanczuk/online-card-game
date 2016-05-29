@@ -31,9 +31,9 @@ void odbieranieWiadomosciOdInnychGraczy(int sock, bool &czyKoniecGry)
     		    exit( - 1 );
   		}
   		printf("Server: %s \n", bufor );
-		if (czyTenSamString(bufor,"koniec gry"))
+		std::string s("koniec gry");
+		if (s.compare(bufor) == 0)
 		{
-			printf("TESTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
 			czyKoniecGry = true;
 		}
 	}
@@ -50,5 +50,6 @@ void chat(int &sock)
 		std::getline(std::cin,s);
 		write(sock,s.c_str(),s.length());
 	}
+	t.join();
 }
 

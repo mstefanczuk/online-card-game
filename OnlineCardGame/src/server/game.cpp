@@ -34,13 +34,13 @@ kolejnych graczy*/
 int game(std::vector<struct client_t*> clientList, int iloscGraczy,bool &czyKoniec,std::vector<struct client_t*> chatList)
 {
 	std::vector<karta> wszystkieKarty = stworzVectorWszystkichKart();
-	int kogoJestTura;
-	clientList = rozlosujKarty(clientList,wszystkieKarty,kogoJestTura);
-	/*int kogoJestTura = 0;
+	//int kogoJestTura;
+	//clientList = rozlosujKarty(clientList,wszystkieKarty,kogoJestTura);
+	int kogoJestTura = 0;
 	clientList[0]->kartyGracza.push_back(karta(typKarty(0),numerKarty(0)));
 	clientList[0]->kartyGracza.push_back(karta(typKarty(0),numerKarty(1)));
 	clientList[1]->kartyGracza.push_back(karta(typKarty(1),numerKarty(1)));
-	clientList[1]->kartyGracza.push_back(karta(typKarty(1),numerKarty(2)));*/
+	clientList[1]->kartyGracza.push_back(karta(typKarty(1),numerKarty(2)));
 	for(int i=0;i<clientList.size();++i)
 		wyslij(clientList[i],"Rozpoczynamy gre");
 	sleep(1);
@@ -56,6 +56,7 @@ int game(std::vector<struct client_t*> clientList, int iloscGraczy,bool &czyKoni
 		kogoJestTura = ruchGracza(kogoJestTura,clientList,stosKart,chatList);
 		wyslijWszystkimStanStosu(clientList,stosKart,chatList);
 	}
+	sleep(1);
 	for(int i = 0 ; i < chatList.size() ; i ++)
 	{
 		wyslij(chatList[i],"koniec gry");

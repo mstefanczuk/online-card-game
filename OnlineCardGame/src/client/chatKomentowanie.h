@@ -8,5 +8,7 @@
 
 void wybor(int &sock);
 void czatKomentowanieHistorycznych(int &sock);
+void czatuj(int &sock);
+void nasluchuj(int sock, bool &czyKoniec);
 
 #endif

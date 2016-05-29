@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 Projekt z TIN:
 System komunikacji do gry towarzyskiej Pan
 
@@ -10,18 +8,4 @@ Michał Stefańczuk
 Karol Borowski
 Kamil Zieliński
 
->>>>>>> refs/remotes/origin/development
 
-TODO:
-- WIRESHARK - Crisitan !!
-- tworzenie watkow logowania, tzn. na samym poczatku kiedy gracze sie loguja do gry to trzeba
-  zrobic tak zeby kazdy byl obslugiwany przez oddzielny watek. W tych watkach tworzona bedzie
-  lista graczy z ktorej bedziemy korzystac w grze do komunikowania ich o tym jak sie toczy gra.
-  (Kamil)
-- testy polaczenia i wiresharka jak bedzie zrobiony (Karol + Stefan)
-- ustalic czy chcemy korzystac z jasonow czy robimy wiadomości własnego typu
-TOFIX:
-- usunac sleepy miedzy "write". (sa po to zeby sie nie blokowalo, narazie nie wiem jak to 
-  rozwiazac)
-- usunac structure client_T z server/game.cpp. Ta struktura jest w connection.cpp wiec bez sensu
-  dwa razy ja tak samo deklarowac w dwoch odzielnych plikach.

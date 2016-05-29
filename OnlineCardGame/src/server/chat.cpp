@@ -30,7 +30,8 @@ struct client_t
 };
 
 
-/*glowna funkcja obslugujaca chat*/
+/*glowna funkcja obslugujaca chat. nasluchuje komunikatow od widzow i przesyla je 
+do pozostalych. Konczy swoje dzialanie kiedy gra sie skonczy.*/
 void chat(std::vector<struct client_t*> chatList,int numer,bool &czyKoniecGry)
 {
 	while(!czyKoniecGry)

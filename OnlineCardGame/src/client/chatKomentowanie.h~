@@ -6,7 +6,8 @@
 
 #include <string>
 
-void wybor();
+void wybor(int &sock);
 void czatKomentowanieHistorycznych(int &sock);
+void czatuj(int &sock);
 
 #endif

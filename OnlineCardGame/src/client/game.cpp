@@ -40,9 +40,8 @@ void wykonajRuch(int &sock)
 	printf("Twoja kolej aby wykonac ruch\n");
 	int ktoraKarteZagrac;
 	//getchar();
-	printf("jaka karte chcesz zagrac?\n");
+	printf("jaka karte chcesz zagrac?(jezeli chcesz pobrac karty ze stosu to wpisz numer o jeden wiekszy niz ilosc twoich kart)\n");
 	scanf("%d",&ktoraKarteZagrac);
-	printf("karta ktora sie wpisalo : %d\n",ktoraKarteZagrac);
 	char buf[16];
 	sprintf(buf,"zagrywam karte %d",ktoraKarteZagrac);
 	write(sock,buf,17);

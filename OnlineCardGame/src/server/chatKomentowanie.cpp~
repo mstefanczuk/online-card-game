@@ -30,6 +30,7 @@ struct client_t
     std::vector<karta> kartyGracza;
 };
 
+/*funkcja obslugujaca czat miedzy klientami*/
 void chatowanie(struct client_t* client,std::vector<struct client_t*> &chatList)
 {
 	chatList.push_back(client);
@@ -71,6 +72,7 @@ void chatowanie(struct client_t* client,std::vector<struct client_t*> &chatList)
 	}
 }
 
+/*funkcja obslugujaca klienta. Umozliwia wybor czynnosci jaka chce wykonac klient.*/
 void obslugaPojedynczego(std::vector<struct client_t*> &clientList,struct client_t* client,std::vector<struct client_t*> &chatList)
 {
 	write(client->socket,"wybor",5);
@@ -110,10 +112,10 @@ void obslugaPojedynczego(std::vector<struct client_t*> &clientList,struct client
 	}
 }
 
+/*funkcja ktora tworzy watek dla kazdego klienta aby mogl byc obsluzony.*/
 void czatKomentowanieHistorycznych(std::vector<struct client_t*> clientList)
 {
 	std::thread t[clientList.size()];
-	printf("clientList.size() = %d\n",clientList.size());
 	int siz = clientList.size();
 	std::vector<struct client_t*> chatList;
 	for(int i = 0 ; i < clientList.size() ; i++)

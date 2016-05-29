@@ -1,7 +1,7 @@
 /**
  * Autor: Mateusz Skolimowski
  * 
- * W tym pliku beda znajdowac sie wszystkie funkcje ktore sluza do obslugi chatu od strony gracza.
+ * W tym pliku beda znajdowac sie wszystkie funkcje ktore sluza do obslugi chatu po rozgrywce od strony gracza.
  * 
  */
 #include <vector>
@@ -19,6 +19,8 @@
 #include <iostream>
 #include <thread>
 
+/*funkcja umozliwiajaca graczowi co chce robic. korzystac z czatu, komentowac historyczne rozgrywki
+czy zakonczyc sesje. wysyla swoj komunikat do serwera*/
 void wybor(int &sock)
 {
 	printf("wybierz co chcesz robic\n");
@@ -30,6 +32,8 @@ void wybor(int &sock)
 	write(sock,s.c_str(),s.length());
 }	
 
+/*funkcja ktora nasluchuje komunikatow od serwera ktory przekazuje komunikaty od innych
+uzytkownikow korzystajacych z czatu*/
 void nasluchuj(int sock, bool &czyKoniec)
 {
 	char bufor[1024];
@@ -50,11 +54,14 @@ void nasluchuj(int sock, bool &czyKoniec)
 	}
 }
 
+/*funkcja umozliwiajaca wyslanie wiadomosci do innych czatujacych poprzez
+serwer. jezeli uzytkownik wysle "exit" to wraca do mozliwosci wyboru
+co chce robic*/
 void czatuj(int &sock)
 {
 	bool czyKoniec = false;
 	std::thread t(nasluchuj,sock,std::ref(czyKoniec));
-	printf("co chcsz napisac?\n");
+	printf("co chcsz napisac?(jezeli chcesz wrocic do menu wyboru wpisz 'exit'\n");
 	while(!czyKoniec)
 	{	
 		std::string s;
@@ -66,6 +73,9 @@ void czatuj(int &sock)
 	t.join();
 }
 
+/*funkcja ktora odbiera komunikaty od serwera i w zelznosci od tego co otrzyma
+umozliwia uzytkownikowi rozne funkcje jak wybor co chce dalej robic czy 
+korzystanie z czatu*/
 void czatKomentowanieHistorycznych(int &sock)
 {
 	char bufor[1024];
@@ -84,7 +94,6 @@ void czatKomentowanieHistorycznych(int &sock)
 		}
 		else if(std::string("czatuj").compare(bufor) == 0)
 		{
-			printf("bedziesz czatowac\n");
 			czatuj(sock);
 		}
 		else if(std::string("koniec").compare(bufor) == 0)

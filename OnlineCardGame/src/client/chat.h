@@ -6,7 +6,6 @@
 
 #include <string>
 
-bool czyTenSamString(char *b, std::string b2);
 void odbieranieWiadomosciOdInnychGraczy(int sock, bool &czyKoniecGry);
 void chat(int &sock);
 

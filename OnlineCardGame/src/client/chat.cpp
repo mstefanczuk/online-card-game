@@ -19,6 +19,9 @@
 #include <iostream>
 #include <thread>
 
+/*funkcja w ktorej gracz odbiera komunikaty od serwera ktore pochodza od 
+innych gracyz korzystajacych z czatu. Ewentualnie otrzymuje komunikat od
+samego serwera o zakonczeniu gry*/
 void odbieranieWiadomosciOdInnychGraczy(int sock, bool &czyKoniecGry)
 {
 	char bufor[1024];
@@ -34,12 +37,14 @@ void odbieranieWiadomosciOdInnychGraczy(int sock, bool &czyKoniecGry)
 		std::string s("koniec gry");
 		if (s.compare(bufor) == 0)
 		{
+			printf("napiszcie swoje ostatnie wiadomosci \n");
 			czyKoniecGry = true;
 		}
 	}
 }
 
-
+/*funkcja tworzy watek do odbierania wiadomosci od serwera oraz pozwala na wysylanie
+wiadomosci do serwera zeby przeslal je do pozostalych graczy*/
 void chat(int &sock)
 {
 	std::string s;

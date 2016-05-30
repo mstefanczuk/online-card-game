@@ -13,6 +13,7 @@
 #include "game.h"
 #include "chatKomentowanie.h"
 #include "chat.h"
+
 /*
   Funkcja do tworzenia połączeń, przypisuje adres lokalny gniazdu.
 */

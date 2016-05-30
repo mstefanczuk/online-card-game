@@ -19,6 +19,7 @@
 #include <pthread.h>
 #include <string>
 #include "game.h"
+#include "log.h"
 
 struct client_t
 {
@@ -30,7 +31,8 @@ struct client_t
 };
 
 
-/*glowna funkcja obslugujaca chat*/
+/*glowna funkcja obslugujaca chat. nasluchuje komunikatow od widzow i przesyla je 
+do pozostalych. Konczy swoje dzialanie kiedy gra sie skonczy.*/
 void chat(std::vector<struct client_t*> chatList,int numer,bool &czyKoniecGry)
 {
 	while(!czyKoniecGry)
@@ -39,15 +41,16 @@ void chat(std::vector<struct client_t*> chatList,int numer,bool &czyKoniecGry)
 		bzero(b,sizeof(b));
 		if(( recv( chatList[numer]->socket, b, sizeof( b ), 0 ) ) <= 0 )
   		{
-   			perror( "Blad recv\n" );
+			printAndWriteLog("Serwer", "Blad recv");
     			exit( - 1 );
   		}
-		std::string s = std::string("[WIDZ") + std::to_string(numer) + std::string("] : ")+b;
-		std::cout<<s<<std::endl;
+		std::string s = std::string("[WIDZ ") + std::string(chatList[numer]->nick) + std::string("]");
+		printAndWriteLogString(s, b);
+		std::string message = s + ": " + b;
 		for(int i = 0 ; i < chatList.size() ; i++)
 		{
 			if(i != numer)
-				write(chatList[i]->socket,s.c_str(),s.length());
+				write(chatList[i]->socket,message.c_str(),s.length());
 		}
 	}
 }

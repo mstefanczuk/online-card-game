@@ -4,6 +4,7 @@
 #ifndef CONNECTION_H
 #define CONNECTION_H
 
-void create_connection(int, char**, int&, char nick[]);
+void create_connection(int, char**, int&, char nick[], char pass[], char mode[]);
+void create_connection_for_logs(int argc, char** argv, int& sock,char nick[], char pass[], char mode[]);
 
 #endif

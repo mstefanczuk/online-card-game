@@ -34,7 +34,7 @@ void printAndWriteLog(const char* tag, const char* text)
 
 void printAndWriteLogString(const std::string tag, const std::string text)
 {
-  printf("%s: %s\n", tag.c_str(), text.c_str());
+  printf("%s: %s\n", tag, text);
 
   std::string contentString = currentDateTime() + " " + tag + ": " + text;
 

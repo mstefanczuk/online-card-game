@@ -6,6 +6,6 @@
 
 void printAndWriteLog(const char* tag, const char* text);
 const std::string currentDateTime();
-void printAndWriteLogString(const std::string tag, const std::string text);
+void printAndWriteLogString(std::string tag, std::string text);
 
 #endif

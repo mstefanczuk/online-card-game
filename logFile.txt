@@ -211,3 +211,54 @@
 11.9 TREFL
 
 2016-05-30_20:03:14 [WIDZ jakisNick2]: aaa
+2016-05-30_20:11:57 Serwer: Podaj haslo zabezpieczajace serwer: 
+2016-05-30_20:11:57 Serwer: Podano haslo
+2016-05-30_20:11:57 Serwer: Podaj ilosc graczy wymaganych do rozpoczecia rozgrywki: 
+2016-05-30_20:11:58 Serwer: 2
+2016-05-30_20:11:58 Serwer: 			!!!!!!!!!Uruchamiam Serwer!!!!!!!!!!!
+2016-05-30_20:11:58 Serwer: Port nasluchujacy:
+2016-05-30_20:11:58 Serwer: 8888
+2016-05-30_20:11:59 jakisNick1: Podano haslo
+2016-05-30_20:11:59 jakisNick1: Tryb gracza:
+2016-05-30_20:11:59 jakisNick1: 1
+2016-05-30_20:12:01 jakisNick2: Podano haslo
+2016-05-30_20:12:01 jakisNick2: Tryb gracza:
+2016-05-30_20:12:01 jakisNick2: 2
+2016-05-30_20:12:03 jakisNick3: Podano haslo
+2016-05-30_20:12:03 jakisNick3: Tryb gracza:
+2016-05-30_20:12:03 jakisNick3: 2
+2016-05-30_20:12:05 jakisNick4: Podano haslo
+2016-05-30_20:12:05 jakisNick4: Tryb gracza:
+2016-05-30_20:12:05 jakisNick4: 1
+2016-05-30_20:12:05 Serwer: Rozpoczyna gracz jakisNick1
+2016-05-30_20:12:06 jakisNick1: Karty gracza:
+
+0.A TREFL
+1.K KARO
+2.D TREFL
+3.9 KIER
+4.A PIK
+5.J KARO
+6.D KARO
+7.9 PIK
+8.10 PIK
+9.10 KARO
+10.9 KARO
+11.9 TREFL
+
+2016-05-30_20:12:06 jakisNick4: Karty gracza:
+
+0.J TREFL
+1.10 KIER
+2.A KIER
+3.J KIER
+4.A KARO
+5.J PIK
+6.D KIER
+7.10 TREFL
+8.K KIER
+9.D PIK
+10.K TREFL
+11.K PIK
+
+2016-05-30_20:12:08 Serwer: Blad recv

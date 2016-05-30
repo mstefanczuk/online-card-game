@@ -371,7 +371,7 @@ std::vector<struct client_t*> rozlosujKarty(std::vector<struct client_t*> client
 		{
 			if(wszystkieKarty.at(losowa).getTyp() == "KIER" && wszystkieKarty.at(losowa).getNumer() == "9")
 			{
-				printAndWriteLogString(SERVER_TAG, "Rozpoczyna gracz " + clientList[i]->nick);
+				printAndWriteLogString(SERVER_TAG, "Rozpoczyna gracz " + std::string(clientList[i]->nick));
 				numerGraczaKtoryRozpoczyna = i;
 				czyWiemyKtoZaczyna = true;
 			}

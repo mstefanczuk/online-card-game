@@ -15,25 +15,23 @@ function p_myproto.dissector (buf, pkt, root)
 
     if (tcp_dst_f().value == 8888) then
 
-      	local option = buf(0,1):uint()
+        local option = buf(0,1):uint()
 
-        subtree:add(buf(0,buf:len()), "Nazwa uzytkownika: " .. buf(0,buf:len()):string())
-     --   subtree:add(buf(4,4), "haslo: " .. buf(4,4):string())
-
-        if (option == 1) then
-            subtree:add(buf(0,1), "1= gracz: " .. buf(0,1):uint())
+     subtree:add(buf(0,buf:len()), "Komunikat: " .. buf(0,buf:len()):string())
+if (option == 3) then
+            subtree:add(buf(0,buf:len()), "Komunikat: " .. buf(0,buf:len()):string())
         else
-           if (option == 2) then
-                subtree:add(buf(0,1), "2=Widz:" .. buf(0,1):uint())
+            if (option == 4) then
+                 subtree:add(buf(0,buf:len()), "Komunikat: " .. buf(0,buf:len()):string())
             end
         end
 
-    --else
-      --  subtree:add(buf(0,1), "Category: " .. buf(0,1):uint())
-      --  subtree:add(buf(1,8), "Created: " .. buf(1,8):string())
-     --   subtree:add(buf(9,buf:len()), "Advert: " .. buf(9,buf:len()-10):string())
-    end
+    else
+        subtree:add(buf(0,buf:len()), "Komunikat: " .. buf(0,buf:len()):string())
 
+     
+       
+end
 end
 
 -- Initialization routine

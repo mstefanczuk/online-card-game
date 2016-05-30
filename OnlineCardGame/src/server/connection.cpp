@@ -29,7 +29,7 @@ struct client_t
     std::vector<karta> kartyGracza;
 };
 /**
- * Tworzy połączenie TCP
+ * Funkcja tworzaca deskryptro gniazda
  */
 int create_connection()
 {
@@ -62,21 +62,17 @@ int create_connection()
 
 }
 
-struct test
-{
-	std::vector<struct client_t*> chatList;
-};
-
 /**
- * Funkcja nasłuchująca i dla każdego klienta włączająca odzielny wątek do obsługi
+ * Funkcja ustawiajaca gniazdo w tryb nasłuchiwania oraz prowadzaca weryfikacje graczy
  */
 void listen_connections(int sock,char haslo[],int iluGraczy)
 {
+    //ilosc graczy polaczonych do serwera
     int liczbaGraczy=0;
     int temp;
     pthread_t thread;
+    //ustawienie gniazda w tryb nasluchiwania
     listen(sock, MAX_CLIENTS);
-    pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
     std::vector<struct client_t*> clientList;
     std::vector<struct client_t*> chatList;
     do 
@@ -90,6 +86,7 @@ void listen_connections(int sock,char haslo[],int iluGraczy)
     		perror("Blad alokacji pamieci");
     		exit(1);
     	}
+        //oczekiwanie na polaczenie od klienta
         new_client->socket = accept(sock,(struct sockaddr *) 0,(socklen_t *) 0);
         if (new_client->socket == -1 )
         {
@@ -104,7 +101,8 @@ void listen_connections(int sock,char haslo[],int iluGraczy)
             }
             do 
 	    {
-                istniejeGracz=0;		
+                istniejeGracz=0;
+                //sprawdzanie czy podany nick klienta znajduje się w grze		
 		for(int i=0;i<clientList.size();++i)
 	           if(strcmp(clientList[i]->nick,new_client->nick)==0)
 		      istniejeGracz=1;
@@ -122,9 +120,9 @@ void listen_connections(int sock,char haslo[],int iluGraczy)
 		      write(new_client->socket,"0",2);
 	    }
             while(istniejeGracz==1);
-            //pthread_mutex_lock(&mutex);
             char czyDobreHaslo[2]="0";
             int i=0;
+            //weryfikacja hasla - 5 prob logowania
             char haslo2[200];
 	    while(i<5 && czyDobreHaslo[0]=='0')
    	    {  
@@ -187,7 +185,6 @@ void listen_connections(int sock,char haslo[],int iluGraczy)
 			break;
 		}
             }
- 	    pthread_mutex_unlock(&mutex);
        }
     } while(1);
 }

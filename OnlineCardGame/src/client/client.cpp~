@@ -46,6 +46,6 @@ char mode[2];
   //polaczenie z serwerem
   //create_connection(argc, argv, client->sock,client->nick);
   create_connection(argc, argv, client->sock,client->nick, pass, mode);
-  //close(client->sock);
+  close(client->sock);
   return 0;
 }

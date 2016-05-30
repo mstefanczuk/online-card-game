@@ -10,10 +10,9 @@
 
 int main(int argc, char **argv)
 {
-    int socket, http_socket;
+    int socket;
     int getC;
     int iluGraczy;
-    pthread_t http_thread;
     char haslo[200];
     printf("Podaj haslo zabezpieczajace serwer: ");
     scanf("%99[^\n]",haslo);

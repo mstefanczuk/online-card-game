@@ -1,3 +1,5 @@
+--Autor Cristian Makarski
+
 -- create myproto protocol and its fields
 p_myproto = Proto ("myproto","My Protocol")
 
@@ -16,21 +18,19 @@ function p_myproto.dissector (buf, pkt, root)
     if (tcp_dst_f().value == 8888) then
 
         local option = buf(0,1):uint()
-
-     subtree:add(buf(0,buf:len()), "Komunikat: " .. buf(0,buf:len()):string())
-if (option == 3) then
-            subtree:add(buf(0,buf:len()), "Komunikat: " .. buf(0,buf:len()):string())
-        else
-            if (option == 4) then
-                 subtree:add(buf(0,buf:len()), "Komunikat: " .. buf(0,buf:len()):string())
-            end
-        end
-
-    else
         subtree:add(buf(0,buf:len()), "Komunikat: " .. buf(0,buf:len()):string())
 
-     
-       
+    if (option == 1) then
+            subtree:add(buf(0,buf:len()), "Komunikat: " .. buf(0,buf:len()):string())
+        else
+            if (option == 2) then
+                 subtree:add(buf(0,buf:len()), "Komunikat: " .. buf(0,buf:len()):string())
+           end
+        end
+
+           else
+        subtree:add(buf(0,buf:len()), "Komunikat: " .. buf(0,buf:len()):string())
+   
 end
 end
 

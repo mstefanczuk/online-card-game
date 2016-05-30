@@ -262,3 +262,75 @@
 11.K PIK
 
 2016-05-30_20:12:08 Serwer: Blad recv
+2016-05-30_18:36:50 Serwer: Podaj haslo zabezpieczajace serwer: 
+2016-05-30_18:36:50 Serwer: Podano haslo
+2016-05-30_18:36:50 Serwer: Podaj ilosc graczy wymaganych do rozpoczecia rozgrywki: 
+2016-05-30_18:36:51 Serwer: 2
+2016-05-30_18:36:51 Serwer: 			!!!!!!!!!Uruchamiam Serwer!!!!!!!!!!!
+2016-05-30_18:36:51 Serwer: Port nasluchujacy:
+2016-05-30_18:36:51 Serwer: 8888
+2016-05-30_18:36:52 jakisNick1: Podano haslo
+2016-05-30_18:36:52 jakisNick1: Tryb gracza:
+2016-05-30_18:36:52 jakisNick1: 1
+2016-05-30_18:36:54 jakisNick2: Podano haslo
+2016-05-30_18:36:54 jakisNick2: Tryb gracza:
+2016-05-30_18:36:54 jakisNick2: 2
+2016-05-30_18:36:56 jakisNick3: Podano haslo
+2016-05-30_18:36:56 jakisNick3: Tryb gracza:
+2016-05-30_18:36:56 jakisNick3: 2
+2016-05-30_18:36:58 jakisNick4: Podano haslo
+2016-05-30_18:36:58 jakisNick4: Tryb gracza:
+2016-05-30_18:36:58 jakisNick4: 1
+2016-05-30_18:36:58 Serwer: Rozpoczyna gracz jakisNick4
+2016-05-30_18:36:59 jakisNick1: Karty gracza:
+
+0.J TREFL
+1.A PIK
+2.9 KARO
+3.A KARO
+4.9 PIK
+5.D KARO
+6.A TREFL
+7.J PIK
+8.9 TREFL
+9.10 TREFL
+10.A KIER
+11.K TREFL
+
+2016-05-30_18:36:59 jakisNick4: Karty gracza:
+
+0.9 KIER
+1.10 KIER
+2.D KIER
+3.10 KARO
+4.D PIK
+5.10 PIK
+6.K KIER
+7.J KIER
+8.J KARO
+9.D TREFL
+10.K PIK
+11.K KARO
+
+2016-05-30_18:37:49 jakisNick4: zagrywam karte 0
+2016-05-30_18:37:49 jakisNick4: Gracz polozyl karte: 9 KIER
+2016-05-30_18:37:49 Serwer: Stan stosu: 
+0.9 KIER
+
+2016-05-30_18:37:51 jakisNick1: zagrywam karte 0
+2016-05-30_18:37:51 jakisNick1: Gracz polozyl karte: J TREFL
+2016-05-30_18:37:51 Serwer: Stan stosu: 
+0.9 KIER
+1.J TREFL
+
+2016-05-30_18:38:01 jakisNick4: zagrywam karte 0
+2016-05-30_18:38:01 jakisNick4: Gracz polozyl karte: 10 KIER
+2016-05-30_18:38:01 Serwer: Stan stosu: 
+0.9 KIER
+1.J TREFL
+2.10 KIER
+
+2016-05-30_18:38:11 [WIDZ jakisNick3]: siema chuju
+2016-05-30_18:38:14 [WIDZ jakisNick3]: Hahahha
+2016-05-30_18:38:27 [WIDZ jakisNick2]: Spierdalaj
+2016-05-30_18:38:55 Serwer: Blad recv

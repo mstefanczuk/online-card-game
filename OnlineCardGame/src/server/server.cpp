@@ -20,6 +20,10 @@ int main(int argc, char **argv)
     pthread_t http_thread;
     char haslo[200];
 
+	std::string fileName = currentDateTime();
+
+    initFileName(fileName);
+
     printAndWriteLog(SERVER_TAG, "Podaj haslo zabezpieczajace serwer: ");
     scanf("%99[^\n]",haslo);
     printAndWriteLog(SERVER_TAG, "Podano haslo");

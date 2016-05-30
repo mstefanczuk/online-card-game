@@ -4,8 +4,10 @@
 #ifndef LOG_H
 #define LOG_H
 
+void printAndWriteLog2(const std::string fileName, const char* tag, const char* text);
 void printAndWriteLog(const char* tag, const char* text);
 const std::string currentDateTime();
-void printAndWriteLogString(std::string tag, std::string text);
+void printAndWriteLogString(const std::string tag, const std::string text);
+void initFileName(std::string name);
 
 #endif

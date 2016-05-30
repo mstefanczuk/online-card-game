@@ -33,10 +33,6 @@ char mode[2];
       printf("\nZLA LICZBA ARGUMENTOW.\n");
       exit(1);
   } 
-  //WYRZUCONE NA CZAS TESTOW
-  //printf("Podaj nick: ");
-  //scanf("%50[^\n]",client->nick);
-  //getchar();
 
   strcpy(client->nick, argv[3]);
   strcpy(pass, argv[4]);

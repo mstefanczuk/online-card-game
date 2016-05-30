@@ -20,6 +20,14 @@
 #include <string>
 #include <thread>
 #include "game.h"
+#include <dirent.h>
+#include "log.h"
+#include <string>
+#include <fstream>
+#include <streambuf>
+#include <sstream> 
+
+std::vector<std::string> listOfFiles;
 
 struct client_t
 {
@@ -29,6 +37,42 @@ struct client_t
     int trybGracza;
     std::vector<karta> kartyGracza;
 };
+
+std::string vectorToString(std::vector<std::string> vector) {
+   std::string string;
+   
+   for(int i =0; i<vector.size(); i++) {
+	string = string + std::to_string(i) + ". " + vector[i] + "\n";
+   }
+	return string;
+}
+
+std::vector<std::string> listFiles(const char* path)
+{
+   std::vector<std::string> files;
+   DIR* dirFile = opendir( path );
+   if ( dirFile ) 
+   {
+      struct dirent* hFile;
+      errno = 0;
+      for (int i = 0; ( hFile = readdir( dirFile )) != NULL; i++) 
+      {
+         if ( !strcmp( hFile->d_name, "."  )) continue;
+         if ( !strcmp( hFile->d_name, ".." )) continue;
+
+         // in linux hidden files all start with '.'
+         if ( hFile->d_name[0] == '.' ) continue;
+
+         // dirFile.name is the name of the file. Do whatever string comparison 
+         // you want here. Something like:
+         if ( strstr( hFile->d_name, ".log" ))
+            files.push_back(hFile->d_name);
+      } 
+      closedir( dirFile );
+   }
+listOfFiles = files;
+   return files;
+}
 
 /*funkcja obslugujaca czat miedzy klientami*/
 void chatowanie(struct client_t* client,std::vector<struct client_t*> &chatList)
@@ -42,16 +86,16 @@ void chatowanie(struct client_t* client,std::vector<struct client_t*> &chatList)
 		bzero(bufor,sizeof(bufor));
   		if(( recv( client->socket, bufor, sizeof( bufor ), 0 ) ) <= 0 )
   		{
-   			perror( "Blad recv\n" );
+   			printAndWriteLog("Serwer", "Blad recv\n");
     			exit( - 1 );
   		}
-		printf("klient : %s\n",bufor);
-		if(std::string("exit").compare(bufor) == 0)
+		printAndWriteLog(client->nick, bufor);
+		if(std::string("exit").compare(bufor) == 0)//uzytkownik zakonczyl uzywanie czatu
 		{
 			czyCzatuje = false;
 			write(client->socket,"exit",4);
 		}
-		else
+		else//przeslanie wiadomosci do pozostalych osob korzystajacych z czatu
 		{
 			for(int i = 0 ; i < chatList.size() ; i++)
 			{
@@ -72,6 +116,26 @@ void chatowanie(struct client_t* client,std::vector<struct client_t*> &chatList)
 	}
 }
 
+void sendFileContentToClient(struct client_t* client) {
+char bufor[99999];
+	while(1)
+	{
+		bzero(bufor,sizeof(bufor));
+  		if(( recv( client->socket, bufor, sizeof(bufor), 0 ) ) <= 0 )
+  		{
+   			printAndWriteLog("Serwer", "Blad recv\n");
+    			exit( - 1 );
+  		}
+break;
+
+}
+std::string fileName = listOfFiles[atoi(bufor)];
+std::ifstream t(fileName);
+std::stringstream buffer;
+buffer << t.rdbuf();
+write(client->socket, buffer.str().c_str(), buffer.str().length());
+}
+
 /*funkcja obslugujaca klienta. Umozliwia wybor czynnosci jaka chce wykonac klient.*/
 void obslugaPojedynczego(std::vector<struct client_t*> &clientList,struct client_t* client,std::vector<struct client_t*> &chatList)
 {
@@ -82,10 +146,10 @@ void obslugaPojedynczego(std::vector<struct client_t*> &clientList,struct client
 		bzero(bufor,sizeof(bufor));
   		if(( recv( client->socket, bufor, sizeof( bufor ), 0 ) ) <= 0 )
   		{
-   			perror( "Blad recv\n" );
+   			printAndWriteLog("Serwer", "Blad recv\n");
     			exit( - 1 );
   		}
-		printf("klient : %s\n",bufor);
+		printAndWriteLog(client->nick, bufor);
 		if(std::string("1").compare(bufor) == 0)//chce czatowac
 		{
 			chatowanie(client,chatList);
@@ -94,7 +158,11 @@ void obslugaPojedynczego(std::vector<struct client_t*> &clientList,struct client
 		}
 		else if(std::string("2").compare(bufor) == 0)//chce komentowac
 		{
-			printf("widz chce komentowac\n");
+			std::string message = vectorToString(listFiles("./"));
+			printAndWriteLogString("Serwer", message);
+			write(client->socket, message.c_str(), message.length());
+
+			sendFileContentToClient(client);
 		}
 		else if(std::string("3").compare(bufor) == 0)//chce zakonczyc
 		{
@@ -125,6 +193,6 @@ void czatKomentowanieHistorycznych(std::vector<struct client_t*> clientList)
 	for(int i = 0 ; i < siz ; i++)
 	{
 		t[i].join();
-		printf("watek zjoinowal\n");
+		printAndWriteLog("Serwer", "Watek zakonczyl dzialanie");
 	}
 }

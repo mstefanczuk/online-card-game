@@ -37,13 +37,13 @@ kolejnych graczy*/
 int game(std::vector<struct client_t*> clientList, int iloscGraczy,bool &czyKoniec,std::vector<struct client_t*> chatList)
 {
 	std::vector<karta> wszystkieKarty = stworzVectorWszystkichKart();
-	int kogoJestTura;
-	clientList = rozlosujKarty(clientList,wszystkieKarty,kogoJestTura);
-	/*int kogoJestTura = 0; //te zakomentowane linijki sa uzywane do testow kiedy chce szybko zakonczyc gre
+	//int kogoJestTura;
+	//clientList = rozlosujKarty(clientList,wszystkieKarty,kogoJestTura);
+	int kogoJestTura = 0; //te zakomentowane linijki sa uzywane do testow kiedy chce szybko zakonczyc gre
 	clientList[0]->kartyGracza.push_back(karta(typKarty(0),numerKarty(0)));
 	clientList[0]->kartyGracza.push_back(karta(typKarty(0),numerKarty(1)));
 	clientList[1]->kartyGracza.push_back(karta(typKarty(1),numerKarty(1)));
-	clientList[1]->kartyGracza.push_back(karta(typKarty(1),numerKarty(2)));*/
+	clientList[1]->kartyGracza.push_back(karta(typKarty(1),numerKarty(2)));
 	for(int i=0;i<clientList.size();++i)
 		wyslij(clientList[i],"Rozpoczynamy gre");
 	sleep(1);
@@ -146,10 +146,6 @@ bool sprawdzCzyRuchDozwolony(struct client_t* c,int ktoraKarta,std::vector<karta
 	if(stosKart[stosKart.size()-1].porownajKarty(c->kartyGracza[ktoraKarta]))//sprawdamy czy karta ktora lezy na stosie jest "mniejsza" niz ta ktora chcemy polozyc
 	{
 		//printf("mozna wykonac ruch bo karta jest mniejsza");
-		return true;
-	}
-	if(ktoraKarta >=0 && ktoraKarta <= c->kartyGracza.size())//sprawdzamy czy zostala wybrana karta z dostepnych u gracza
-	{
 		return true;
 	}
 	else

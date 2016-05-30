@@ -9,26 +9,66 @@
 #include "connection.h"
 #include <thread>
 #include "log.h"
+#include <vector>
+#include <dirent.h>
 
 #define SERVER_TAG "Serwer"
 
+std::string vectorToString(std::vector<std::string> vector) {
+   std::string string;
+   
+   for(int i =0; i<vector.size(); i++) {
+	string = string + std::to_string(i) + ". " + vector[i] + "\n";
+   }
+	return string;
+}
+
+std::vector<std::string> listFiles(const char* path)
+{
+   std::vector<std::string> files;
+   DIR* dirFile = opendir( path );
+   if ( dirFile ) 
+   {
+      struct dirent* hFile;
+      errno = 0;
+      for (int i = 0; ( hFile = readdir( dirFile )) != NULL; i++) 
+      {
+         if ( !strcmp( hFile->d_name, "."  )) continue;
+         if ( !strcmp( hFile->d_name, ".." )) continue;
+
+         // in linux hidden files all start with '.'
+         if ( hFile->d_name[0] == '.' ) continue;
+
+         // dirFile.name is the name of the file. Do whatever string comparison 
+         // you want here. Something like:
+         if ( strstr( hFile->d_name, ".log" ))
+            files.push_back(hFile->d_name);
+      } 
+      closedir( dirFile );
+   }
+   return files;
+}
+
 int main(int argc, char **argv)
 {
+printf("%s", vectorToString(listFiles("./")).c_str());
+
+
     int socket, http_socket;
     int getC;
     int iluGraczy;
     pthread_t http_thread;
     char haslo[200];
 
-	std::string fileName = currentDateTime();
+	std::string fileName = (currentDateTime())+".log";
 
     initFileName(fileName);
 
-    printAndWriteLog2(fileName, SERVER_TAG, "Podaj haslo zabezpieczajace serwer: ");
+    printAndWriteLog(SERVER_TAG, "Podaj haslo zabezpieczajace serwer: ");
     scanf("%99[^\n]",haslo);
-    printAndWriteLog2(fileName, SERVER_TAG, "Podano haslo");
+    printAndWriteLog(SERVER_TAG, "Podano haslo");
     getC=getchar();
-    printAndWriteLog2(fileName, SERVER_TAG, "Podaj ilosc graczy wymaganych do rozpoczecia rozgrywki: ");
+    printAndWriteLog(SERVER_TAG, "Podaj ilosc graczy wymaganych do rozpoczecia rozgrywki: ");
     scanf("%d",&iluGraczy);
     std::string s = std::to_string(iluGraczy);
     char const *pchar = s.c_str();
@@ -42,3 +82,5 @@ int main(int argc, char **argv)
     //funkcja nasluchujaca
     listen_connections(socket,haslo,iluGraczy);
 }
+
+

@@ -20,7 +20,7 @@ int main(int argc, char **argv)
     pthread_t http_thread;
     char haslo[200];
 
-	std::string fileName = currentDateTime();
+	std::string fileName = (currentDateTime())+".log";
 
     initFileName(fileName);
 
@@ -42,3 +42,5 @@ int main(int argc, char **argv)
     //funkcja nasluchujaca
     listen_connections(socket,haslo,iluGraczy);
 }
+
+

@@ -148,10 +148,6 @@ bool sprawdzCzyRuchDozwolony(struct client_t* c,int ktoraKarta,std::vector<karta
 		//printf("mozna wykonac ruch bo karta jest mniejsza");
 		return true;
 	}
-	if(ktoraKarta >=0 && ktoraKarta <= c->kartyGracza.size())//sprawdzamy czy zostala wybrana karta z dostepnych u gracza
-	{
-		return true;
-	}
 	else
 		return false;
 }

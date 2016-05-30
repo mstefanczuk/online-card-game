@@ -1,0 +1,66 @@
+2016-05-30_19:19:27 Serwer: Podaj haslo zabezpieczajace serwer: 
+2016-05-30_19:19:27 Serwer: Podano haslo
+2016-05-30_19:19:27 Serwer: Podaj ilosc graczy wymaganych do rozpoczecia rozgrywki: 
+2016-05-30_19:19:28 Serwer: 2
+2016-05-30_19:19:28 Serwer: 			!!!!!!!!!Uruchamiam Serwer!!!!!!!!!!!
+2016-05-30_19:19:28 Serwer: Port nasluchujacy:
+2016-05-30_19:19:28 Serwer: 8888
+2016-05-30_19:19:29 jakisNick1: Podano haslo
+2016-05-30_19:19:29 jakisNick1: Tryb gracza:
+2016-05-30_19:19:29 jakisNick1: 1
+2016-05-30_19:19:31 jakisNick2: Podano haslo
+2016-05-30_19:19:31 jakisNick2: Tryb gracza:
+2016-05-30_19:19:31 jakisNick2: 2
+2016-05-30_19:19:33 jakisNick3: Podano haslo
+2016-05-30_19:19:33 jakisNick3: Tryb gracza:
+2016-05-30_19:19:33 jakisNick3: 2
+2016-05-30_19:19:35 jakisNick4: Podano haslo
+2016-05-30_19:19:35 jakisNick4: Tryb gracza:
+2016-05-30_19:19:35 jakisNick4: 1
+2016-05-30_19:19:35 Serwer: Rozpoczyna gracz jakisNick1
+2016-05-30_19:19:36 jakisNick1: Karty gracza:
+
+0.10 KARO
+1.J KIER
+2.A KIER
+3.D TREFL
+4.D KIER
+5.D KARO
+6.A PIK
+7.J TREFL
+8.9 TREFL
+9.K TREFL
+10.9 KIER
+11.A KARO
+
+2016-05-30_19:19:36 jakisNick4: Karty gracza:
+
+0.10 PIK
+1.J KARO
+2.K KARO
+3.A TREFL
+4.9 PIK
+5.9 KARO
+6.K KIER
+7.10 KIER
+8.10 TREFL
+9.J PIK
+10.D PIK
+11.K PIK
+
+2016-05-30_19:19:42 jakisNick1: zagrywam karte 0
+2016-05-30_19:19:42 jakisNick1: Gracz polozyl karte: 10 KARO
+2016-05-30_19:19:42 Serwer: Stan stosu: 
+0.10 KARO
+
+2016-05-30_19:19:46 jakisNick4: zagrywam karte 1
+2016-05-30_19:19:46 jakisNick4: Gracz polozyl karte: J KARO
+2016-05-30_19:19:46 Serwer: Stan stosu: 
+0.10 KARO
+1.J KARO
+
+2016-05-30_19:20:01 jakisNick1: zagrywam karte 7
+2016-05-30_19:20:01 Serwer: Stan stosu: 
+0.10 KARO
+1.J KARO
+

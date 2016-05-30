@@ -27,4 +27,5 @@ int main(int argc, char **argv)
     socket = create_connection();
     //funkcja nasluchujaca
     listen_connections(socket,haslo,iluGraczy);
+    close(socket);
 }

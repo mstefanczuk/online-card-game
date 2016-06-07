@@ -1,7 +1,0 @@
-#!/bin/bash
-
-(
-echo "jakiesHaslo"
-sleep 1
-echo "2"
-) | OnlineCardGame/src/server/server

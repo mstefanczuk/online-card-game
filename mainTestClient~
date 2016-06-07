@@ -1,6 +1,0 @@
-#!/bin/bash
-
-sleep "$1"
-
-OnlineCardGame/src/client/client 127.0.0.1 8888 $2 $3 $4
-
